@@ -1,0 +1,95 @@
+[
+    {
+        "id": "hash",
+        "name": "My Plugin",
+        "slug": "my-plugin",
+        "version": "1.0",
+        "description": "Lorem ipsum dolor sit amet, consectetur <a href=\"#\">adipiscing</a> elit.",
+        "primaryUrl": "https://",
+        "primaryCallToAction": "Buy Now",
+        "secondaryUrl": "https://",
+        "secondaryCallToAction": "View Demo",
+        "clickToBuyId": "abc123",
+        "type": "plugin",
+        "vendor": {
+            "name": "Micah Wood",
+            "url": "https://wpscholar.com"
+        },
+        "category": [
+            "eCommerce",
+            "Marketing",
+            "Security",
+            "SEO"
+        ],
+        "price": "$1",
+        "createdAt": 1234567890,
+        "modifiedAt": 1234567890
+    },
+    {
+        "id": "123456",
+        "name": "Yoast SEO Premium",
+        "slug": "yoast-premium",
+        "version": "1.0",
+        "description": "SEO made easy!",
+        "productThumbnailUrl": "https://cdn.hiive.space/bluehost/plugin/yoast-seo-premium.png",
+        "primaryUrl": "https://yoa.st/bh-premium?utm_source=wp-admin%2Fadmin.php%3Fpage%3Dhostgator%23%2Fplugins&utm_medium=hostgator_plugin",
+        "primaryCallToAction": "Buy Now",
+        "type": "plugin",
+        "vendor": {
+            "name": "Yoast",
+            "url": "https://yoa.st"
+        },
+        "category": [
+            "eCommerce",
+            "Marketing",
+            "Security",
+            "SEO"
+        ],
+        "price": "$99",
+        "createdAt": 1234567890,
+        "modifiedAt": 1234567890
+    },
+    {
+        "id": "1234567",
+        "name": "Yoast WooCommerce SEO",
+        "slug": "yoast-woo",
+        "version": "1.0",
+        "description": "Make your products stand out in the search results",
+        "productThumbnailUrl": "https://cdn.hiive.space/bluehost/plugin/yoast-seo-woo.png",
+        "primaryUrl": "https://yoa.st/bh-woo-seo?utm_source=wp-admin%2Fadmin.php%3Fpage%3Dhostgator%23%2Fplugins&utm_medium=hostgator_plugin",
+        "primaryCallToAction": "Buy Now",
+        "type": "plugin",
+        "vendor": {
+            "name": "Yoast",
+            "url": "https://yoa.st"
+        },
+        "category": [
+            "eCommerce",
+            "SEO"
+        ],
+        "price": "$79",
+        "createdAt": 1234567890,
+        "modifiedAt": 1234567890
+    },
+    {
+        "id": "12345678",
+        "name": "Constant Contact forms for WordPress",
+        "slug": "constant-contact",
+        "version": "1.0",
+        "description": "Capture visitor information right from your site.",
+        "productThumbnailUrl": "https://marketplace-assets-production.s3-us-west-2.amazonaws.com/vault/items/preview-57fc0ac0-d508-4ece-b096-041e0a14153b-4iVnr.jpg",
+        "primaryUrl": "https://www.mojomarketplace.com/cart?item_id=57fc0ac0-d508-4ece-b096-041e0a14153b&#038;utm_source=mojo_wp_plugin&#038;utm_campaign=mojo_wp_plugin&#038;utm_medium=plugin_admin&#038;utm_content=buy_now_preview&#038;theme=hostgator",
+        "primaryCallToAction": "Buy Now",
+        "type": "plugin",
+        "vendor": {
+            "name": "Constant Contact",
+            "url": "https://constantcontact.com"
+        },
+        "category": [
+            "Marketing",
+            "Email"
+        ],
+        "createdAt": 1234567890,
+        "modifiedAt": 1234567890
+    }
+]
