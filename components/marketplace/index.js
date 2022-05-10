@@ -120,7 +120,12 @@ const MarketplaceItem = ({ item, Components }) => {
 			{ item.description && <Components.CardBody>{ item.description }</Components.CardBody> }
 			<Components.CardFooter>
                 { item.primaryCallToAction && item.primaryUrl &&
-                    <Components.Button variant="primary" href={ item.primaryUrl }>
+                    <Components.Button 
+                        variant="primary" 
+                        href={ item.clickToBuyId ? undefined : item.primaryUrl }
+                        data-action={ item.clickToBuyId ? 'load-nfd-ctb' : undefined }
+                        data-ctb-id={ item.clickToBuyId ? item.clickToBuyId : undefined }
+                    >
                         { item.primaryCallToAction }
                     </Components.Button>
                 }

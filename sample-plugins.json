@@ -32,6 +32,32 @@
         "modifiedAt": 1234567890
     },
     {
+        "id": "hash",
+        "name": "My Service",
+        "slug": "my-service",
+        "version": "1.0",
+        "description": "Lorem ipsum dolor sit amet, consectetur <a href=\"#\">adipiscing</a> elit.",
+        "primaryUrl": "https://bluehost.com",
+        "primaryCallToAction": "Buy Now",
+        "secondaryUrl": "https://bluehost.com",
+        "secondaryCallToAction": "View Demo",
+        "clickToBuyId": "abc123",
+        "type": "service",
+        "vendor": {
+            "name": "Micah Wood",
+            "url": "https://wpscholar.com"
+        },
+        "category": [
+            "eCommerce",
+            "Marketing",
+            "Security",
+            "SEO"
+        ],
+        "price": "$1",
+        "createdAt": 1234567890,
+        "modifiedAt": 1234567890
+    },
+    {
         "id": "123456",
         "name": "Yoast SEO Premium",
         "slug": "yoast-premium",
