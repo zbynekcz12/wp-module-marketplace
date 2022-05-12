@@ -31,12 +31,10 @@ import { default as MarketplaceList } from '../marketplaceList/';
 	// 	}
 	// 	setIsLoading( false );
 	// }, [ location ] );
-
-	// if ( isLoading || ! marketplaceItems.length < 0 ) {
-	// 	return <Components.Spinner />;
-	// }
     
-    // on mount load all marketplace data from module api
+    /**
+     * on mount load all marketplace data from module api
+     */
     methods.useEffect(() => {
         methods.apiFetch( {
             url: `${constants.resturl}/newfold-marketplace/v1/marketplace`
@@ -47,12 +45,17 @@ import { default as MarketplaceList } from '../marketplaceList/';
 		});
 	}, [] );
 
-    // map all categories into an array for consuming by tabpanel component
+    /**
+     * map all categories into an array for consuming by tabpanel component
+     * @param Array products 
+     * @returns 
+     */
     const collectCategories = ( products ) => {
 		let categories = [
 			{
 				name: 'all',
-				title: 'Everything'
+				title: 'Everything',
+                currentCount: constants.perPage
 			}
 		];
 		let cats = new Set();
@@ -64,14 +67,34 @@ import { default as MarketplaceList } from '../marketplaceList/';
 		cats.forEach((cat)=>{
 			categories.push( {
 				name: cat,
-				title: cat
+				title: cat,
+                currentCount: constants.perPage
 			});
 		});
 		return categories;
     };
 
+    /**
+     * Save a potential updated display counts per category
+     * @param string categoryName 
+     * @param Number newCount 
+     */
+    const saveCategoryDisplayCount = (categoryName, newCount) => {
+        let updatedMarketplaceCategories = [...marketplaceCategories];
+        // find matching cat, and update perPage amount
+        updatedMarketplaceCategories.forEach((cat)=>{
+            if (cat.name === categoryName ) {
+                cat.currentCount = newCount;
+            }
+        });
+        setMarketplaceCategories( updatedMarketplaceCategories );
+    };
+
     return (
         <div className={methods.classnames('newfold-marketplace-wrapper')}>
+            { isLoading && 
+                <Components.Spinner />
+            }
             <Components.TabPanel
 				className="newfold-marketplace-tabs"
 				activeClass="current-tab"
@@ -86,6 +109,8 @@ import { default as MarketplaceList } from '../marketplaceList/';
                     Components={Components}
 					methods={methods}
 					constants={constants}
+                    currentCount={tab.currentCount}
+                    saveCategoryDisplayCount={saveCategoryDisplayCount}
                 /> }
 			</Components.TabPanel>
         </div>

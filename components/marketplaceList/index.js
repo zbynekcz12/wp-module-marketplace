@@ -8,42 +8,65 @@ import { default as MarketplaceItem } from '../marketplaceItem/';
  * @param {*} props 
  * @returns 
  */
-
-const MarketplaceList = ({ marketplaceItems, category = 'all', Components, methods, constants }) => {
-    const perPage = 6;
-    const [ itemsCount, setItemsCount ] = methods.useState( 6 );
+const MarketplaceList = ({ marketplaceItems, currentCount, category = 'all', Components, methods, constants, saveCategoryPerPage }) => {
+    const [ itemsCount, setItemsCount ] = methods.useState( currentCount );
     const [ currentItems, setCurrentItems ] = methods.useState( [] );
     const [ activeItems, setActiveItems ] = methods.useState( [] )
 
-    const filterParoductsByCategory = (items, category) => {
+    /**
+     * Filter Products By Category - this ensures only this category products is listed here, it gets us current items
+     * @param Array items - the products
+     * @param string category - the category to filter by 
+     * @returns 
+     */
+    const filterProductsByCategory = (items, category) => {
         return items.filter((item) => {
             return category === 'all' || item.category.includes( category )
         });
     };
 
-    const setProductListLength = (items, itemsCount) => {
-        let itemCount = 0;
+    /**
+     * Set Product List Length - this controls how many products are displayed in the list, it gets us active current items
+     * @param Array items 
+     * @param Number itemsCount 
+     * @returns 
+     */
+    const setProductListCount = (items, itemsCount) => {
+        let count = 0;
         return items.filter((item) => {
-            itemCount++;
-            return itemCount <= itemsCount;
+            count++;
+            return count <= itemsCount;
         });
     };
 
-    // increment itemCount by perPage amount
+    /**
+     * increment itemCount by perPage amount
+     */
     const loadMoreClick = () => {
-        setItemsCount( itemsCount + perPage );
+        setItemsCount( itemsCount + constants.perPage );
     };
 
-    // init
+    /**
+     * init method - filter products
+     */
     methods.useEffect(() => {
-        setCurrentItems( filterParoductsByCategory(marketplaceItems, category) );
+        setCurrentItems( filterProductsByCategory(marketplaceItems, category) );
     }, []);
 
-    // recalculate activeItems if perPage changes
+    /**
+     * recalculate activeItems if currnetItems or itemsCount changes
+     */
     methods.useEffect(() => {
-        setActiveItems( setProductListLength(currentItems, itemsCount) );
+        setActiveItems( setProductListCount(currentItems, itemsCount) );
     }, [ currentItems, itemsCount ] );
 
+    /**
+     * pass up itemsCount for this list when it changes
+     * this is so users don't need to load more every time they click back into a category
+     */
+    methods.useEffect(() => {
+        saveCategoryDisplayCount( category, itemsCount );
+    }, [ itemsCount ] );
 
     return (
         <div className="marketplaceList">

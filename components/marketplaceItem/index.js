@@ -7,7 +7,6 @@
  */
  const MarketplaceItem = ({ item, Components, methods, constants }) => {
 
-
     /**
      * Send events to the WP REST API
      *
@@ -23,6 +22,11 @@
         });
     }
 
+    /**
+     * Handle button clicks
+     * @param Event event 
+     * @returns 
+     */
     const onButtonNavigate = ( event ) => {
         if ( event.keycode && ENTER !== event.keycode ) {
 			return;
@@ -36,6 +40,12 @@
             }
         })
     }
+
+    /**
+     * Handle link clicks
+     * @param Event event 
+     * @returns 
+     */
     const onAnchorNavigate = ( event ) => {
         if ( event.keycode && ENTER !== event.keycode ) {
 			return;
@@ -51,6 +61,9 @@
         })
     }
 	
+    /**
+     * initial set up - adding event listeners
+     */
 	methods.useEffect(() => {
         const itemContainer   = document.getElementById(`marketplace-item-${ item.id }`);
         const itemButtons     = Array.from(itemContainer.querySelectorAll('button'));
@@ -78,6 +91,7 @@
             )
         }
 
+        // unmount remove event listeners
         return () => {
 			if (itemButtons.length) {
                 itemButtons.forEach(
