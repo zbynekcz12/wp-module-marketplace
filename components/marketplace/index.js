@@ -1,3 +1,5 @@
+import { default as MarketplaceList } from '../marketplaceList/';
+
 /**
  * Marketplace Module
  * For use in brand app to display marketplace
@@ -90,58 +92,6 @@
         </div>
     )
 
-};
-
-const MarketplaceList = ({ marketplaceItems, type = 'all', Components }) => {
-    return (
-        <div className="grid col2">
-            {marketplaceItems.filter((item) => {
-                return type === 'all' || item.type === type
-            }).map((item) => (
-                <MarketplaceItem 
-                    type={type}
-                    key={item.hash} 
-                    item={item}
-                    Components={Components}
-                />
-            ))}
-        </div>
-    )
-};
-
-const MarketplaceItem = ({ item, Components }) => {
-
-    return (
-        <Components.Card className={ `marketplace-item marketplace-item-${ item.hash }` }>
-			{ item.productThumbnailUrl && (
-				<Components.CardMedia>
-					<img src={ item.productThumbnailUrl } alt={ item.name + ' thumbnail' } />
-				</Components.CardMedia>
-			) }
-			<Components.CardHeader>
-				<h3>{ item.name }</h3>
-				{ item.price && <em className="price">{ item.price }</em> }
-			</Components.CardHeader>
-			{ item.description && <Components.CardBody>{ item.description }</Components.CardBody> }
-			<Components.CardFooter>
-                { item.primaryCallToAction && item.primaryUrl &&
-                    <Components.Button 
-                        variant="primary" 
-                        href={ item.clickToBuyId ? undefined : item.primaryUrl }
-                        data-action={ item.clickToBuyId ? 'load-nfd-ctb' : undefined }
-                        data-ctb-id={ item.clickToBuyId ? item.clickToBuyId : undefined }
-                    >
-                        { item.primaryCallToAction }
-                    </Components.Button>
-                }
-                { item.secondaryCallToAction && item.secondaryUrl &&
-                    <Components.Button variant="secondary" href={ item.secondaryUrl }>
-                        { item.secondaryCallToAction }
-                    </Components.Button>
-                }
-			</Components.CardFooter>
-		</Components.Card>
-    );
 };
 
 export default Marketplace;
