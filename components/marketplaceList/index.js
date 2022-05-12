@@ -8,7 +8,7 @@ import { default as MarketplaceItem } from '../marketplaceItem/';
  * @param {*} props 
  * @returns 
  */
-const MarketplaceList = ({ marketplaceItems, currentCount, category = 'all', Components, methods, constants, saveCategoryPerPage }) => {
+const MarketplaceList = ({ marketplaceItems, currentCount, category = 'all', Components, methods, constants, saveCategoryDisplayCount }) => {
     const [ itemsCount, setItemsCount ] = methods.useState( currentCount );
     const [ currentItems, setCurrentItems ] = methods.useState( [] );
     const [ activeItems, setActiveItems ] = methods.useState( [] )
