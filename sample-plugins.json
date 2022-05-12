@@ -16,8 +16,104 @@
         "modifiedAt": 1234567890
     },
     {
-        "id": "1234567890",
+        "id": "xx1234567890",
         "name": "AAA Service",
+        "slug": "a-service",
+        "version": "1.0",
+        "description": "Best service ever.",
+        "primaryUrl": "https://www.bluehost.com",
+        "primaryCallToAction": "Buy Now",
+        "type": "service",
+        "category": [
+            "Marketing",
+            "Email"
+        ],
+        "createdAt": 1234567890,
+        "modifiedAt": 1234567890
+    },
+    {
+        "id": "12345x67890",
+        "name": "AAB Service",
+        "slug": "a-service",
+        "version": "1.0",
+        "description": "Best service ever.",
+        "primaryUrl": "https://www.bluehost.com",
+        "primaryCallToAction": "Buy Now",
+        "type": "service",
+        "category": [
+            "Marketing",
+            "Email"
+        ],
+        "createdAt": 1234567890,
+        "modifiedAt": 1234567890
+    },
+    {
+        "id": "123456789x0",
+        "name": "ABC Service",
+        "slug": "a-service",
+        "version": "1.0",
+        "description": "Best service ever.",
+        "primaryUrl": "https://www.bluehost.com",
+        "primaryCallToAction": "Buy Now",
+        "type": "service",
+        "category": [
+            "Marketing",
+            "Email"
+        ],
+        "createdAt": 1234567890,
+        "modifiedAt": 1234567890
+    },
+    {
+        "id": "123456x7890",
+        "name": "ABD Service",
+        "slug": "a-service",
+        "version": "1.0",
+        "description": "Best service ever.",
+        "primaryUrl": "https://www.bluehost.com",
+        "primaryCallToAction": "Buy Now",
+        "type": "service",
+        "category": [
+            "Marketing",
+            "Email"
+        ],
+        "createdAt": 1234567890,
+        "modifiedAt": 1234567890
+    },
+    {
+        "id": "12345678d90",
+        "name": "ACD Service",
+        "slug": "a-service",
+        "version": "1.0",
+        "description": "Best service ever.",
+        "primaryUrl": "https://www.bluehost.com",
+        "primaryCallToAction": "Buy Now",
+        "type": "service",
+        "category": [
+            "Marketing",
+            "Email"
+        ],
+        "createdAt": 1234567890,
+        "modifiedAt": 1234567890
+    },
+    {
+        "id": "12x34567890",
+        "name": "ACE Service",
+        "slug": "a-service",
+        "version": "1.0",
+        "description": "Best service ever.",
+        "primaryUrl": "https://www.bluehost.com",
+        "primaryCallToAction": "Buy Now",
+        "type": "service",
+        "category": [
+            "Marketing",
+            "Email"
+        ],
+        "createdAt": 1234567890,
+        "modifiedAt": 1234567890
+    },
+    {
+        "id": "12345d6x7890",
+        "name": "ACF Service",
         "slug": "a-service",
         "version": "1.0",
         "description": "Best service ever.",
@@ -36,12 +132,12 @@
         "name": "My Service",
         "slug": "my-service",
         "version": "1.0",
-        "description": "Lorem ipsum dolor sit amet, consectetur <a href=\"#\">adipiscing</a> elit.",
+        "description": "Here's a cool service with CTB active, though the ID isn't real so the CTB modal does nothing.",
         "primaryUrl": "https://bluehost.com",
         "primaryCallToAction": "Buy Now",
         "secondaryUrl": "https://bluehost.com",
         "secondaryCallToAction": "View Demo",
-        "clickToBuyId": "abc123",
+        "clickToBuyId": "39331070-d1e4-4e24-94be-a5a91e9d3569",
         "type": "service",
         "vendor": {
             "name": "Micah Wood",

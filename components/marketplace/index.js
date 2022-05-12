@@ -7,16 +7,17 @@
  */
  const Marketplace = ({methods, constants, Components, ...props}) => {
     const [ isLoading, setIsLoading ] = methods.useState( true );
-	// const [ marketplaceTypes, setMarketplaceTypes ] = useState( [] );
+	const [ marketplaceCategories, setMarketplaceCategories ] = methods.useState( ['All'] );
     const [ marketplaceItems, setMarketplaceItems ] = methods.useState( [] );
-
 	const [ initialTab, setInitialTab ] = methods.useState( 'all' );
+    const perPage = 6;
+
 	// const location = methods.useLocation();
-	// const navigate = useNavigate();
+	// const navigate = methods.useNavigate();
 
 	const onTabNavigate = ( tabName ) => {
-		// navigate( '/marketplace/' + tabName, { replace: true } );
-        console.log(tabName);
+		// methods.navigate( '/marketplace/' + tabName, { replace: true } );
+        // console.log( tabName );
     };
 
 	// useEffect( () => {
@@ -25,7 +26,7 @@
 	// 	} else if ( location.pathname.includes( '/themes' ) ) {
 	// 		setInitialTab( 'themes' );
 	// 	} else if ( ! location.pathname.includes( '/plugins' ) ) {
-	// 		navigate( '/marketplace/plugins', { replace: true } );
+	// 		methods.navigate( '/marketplace/plugins', { replace: true } );
 	// 	}
 	// 	setIsLoading( false );
 	// }, [ location ] );
@@ -39,11 +40,34 @@
         methods.apiFetch( {
             url: `${constants.resturl}/newfold-marketplace/v1/marketplace`
         }).then( ( response ) => {
-            setIsLoading(false);
-            setMarketplaceItems(response); // all products
-            // setMarketplaceTypes(response); // map all types into an array
+            setIsLoading( false );
+            setMarketplaceItems( response );
+            setMarketplaceCategories( collectCategories( response ) );
 		});
 	}, [] );
+
+    // map all categories into an array for consuming by tabpanel component
+    const collectCategories = ( products ) => {
+		let categories = [
+			{
+				name: 'all',
+				title: 'Everything'
+			}
+		];
+		let cats = new Set();
+		products.forEach((product) => {
+			product.category.forEach((category) => {
+				cats.add( category );
+			});
+		});
+		cats.forEach((cat)=>{
+			categories.push( {
+				name: cat,
+				title: cat
+			});
+		});
+		return categories;
+    };
 
     return (
         <div className={methods.classnames('newfold-marketplace-wrapper')}>
@@ -53,33 +77,14 @@
 				orientation="vertical"
 				initialTabName={ initialTab }
 				onSelect={ onTabNavigate }
-				tabs={ [
-					{
-						name: 'all',
-						className: 'all',
-						title: 'Everything'
-					},
-					{
-						name: 'plugin',
-						className: 'plugins',
-						title: 'Plugins'
-					},
-					{
-						name: 'service',
-						className: 'services',
-						title: 'Services'
-					},
-					{
-						name: 'theme',
-						className: 'themes',
-						title: 'Themes'
-					},
-				] }
+				tabs={ marketplaceCategories }
 			>
 				{ ( tab ) => <MarketplaceList
                     marketplaceItems={marketplaceItems}
-                    type={tab.name}
+					category={tab.name}
                     Components={Components}
+					methods={methods}
+					constants={constants}
                 /> }
 			</Components.TabPanel>
         </div>
