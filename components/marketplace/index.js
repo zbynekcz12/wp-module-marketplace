@@ -12,7 +12,6 @@ import { default as MarketplaceList } from '../marketplaceList/';
 	const [ marketplaceCategories, setMarketplaceCategories ] = methods.useState( ['All'] );
     const [ marketplaceItems, setMarketplaceItems ] = methods.useState( [] );
 	const [ initialTab, setInitialTab ] = methods.useState( 'all' );
-    const perPage = 6;
 
 	// const location = methods.useLocation();
 	// const navigate = methods.useNavigate();

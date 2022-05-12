@@ -16,6 +16,22 @@
         "modifiedAt": 1234567890
     },
     {
+        "id": "23456789",
+        "name": "Cool plugin",
+        "slug": "cool-plugin",
+        "version": "1.0",
+        "description": "Best plugin ever.",
+        "primaryUrl": "https://www.bluehost.com",
+        "primaryCallToAction": "Buy Now",
+        "type": "plugin",
+        "category": [
+            "Marketing",
+            "Email"
+        ],
+        "createdAt": 1234567890,
+        "modifiedAt": 1234567890
+    },
+    {
         "id": "xx1234567890",
         "name": "AAA Service",
         "slug": "a-service",
