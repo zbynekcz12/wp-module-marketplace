@@ -39,7 +39,6 @@ import { default as MarketplaceList } from '../marketplaceList/';
         methods.apiFetch( {
             url: `${constants.resturl}/newfold-marketplace/v1/marketplace`
         }).then( ( response ) => {
-            console.log( response );
             setIsLoading( false );
             setMarketplaceItems( response );
             setMarketplaceCategories( collectCategories( response ) );
