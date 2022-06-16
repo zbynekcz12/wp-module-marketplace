@@ -14,7 +14,7 @@ if ( function_exists( 'add_action' ) ) {
 			register(
 				[
 					'name'     => 'marketplace',
-					'label'    => __( 'Marketplace', 'newfold-marketplace-module' ),
+					'label'    => __( 'Marketplace', 'newfold-module-marketplace' ),
 					'callback' => function ( Container $container ) {
 						new Marketplace( $container );
 					},

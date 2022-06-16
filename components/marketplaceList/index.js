@@ -21,7 +21,7 @@ const MarketplaceList = ({ marketplaceItems, currentCount, category = 'all', Com
      */
     const filterProductsByCategory = (items, category) => {
         return items.filter((item) => {
-            return category === 'all' || item.category.includes( category )
+            return category === 'all' || item.categories.includes( category )
         });
     };
 

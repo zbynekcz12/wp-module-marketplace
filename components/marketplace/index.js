@@ -39,6 +39,7 @@ import { default as MarketplaceList } from '../marketplaceList/';
         methods.apiFetch( {
             url: `${constants.resturl}/newfold-marketplace/v1/marketplace`
         }).then( ( response ) => {
+            console.log( response );
             setIsLoading( false );
             setMarketplaceItems( response );
             setMarketplaceCategories( collectCategories( response ) );
@@ -51,7 +52,7 @@ import { default as MarketplaceList } from '../marketplaceList/';
      * @returns 
      */
     const collectCategories = ( products ) => {
-		let categories = [
+		let thecategories = [
 			{
 				name: 'all',
 				title: 'Everything',
@@ -60,18 +61,18 @@ import { default as MarketplaceList } from '../marketplaceList/';
 		];
 		let cats = new Set();
 		products.forEach((product) => {
-			product.category.forEach((category) => {
+			product.categories.forEach((category) => {
 				cats.add( category );
 			});
 		});
 		cats.forEach((cat)=>{
-			categories.push( {
+			thecategories.push( {
 				name: cat,
 				title: cat,
                 currentCount: constants.perPage
 			});
 		});
-		return categories;
+		return thecategories;
     };
 
     /**

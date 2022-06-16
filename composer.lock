@@ -4,8 +4,53 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5a2e8f751f5152e47d86cd440a670541",
-    "packages": [],
+    "content-hash": "f26a38560ee32779231b1b6c1e6a8ccf",
+    "packages": [
+        {
+            "name": "newfold-labs/wp-module-data",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/newfold-labs/wp-module-data.git",
+                "reference": "38bb971606cd25be9007cdf2884fdb3429896f69"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/newfold-labs/wp-module-data/zipball/38bb971606cd25be9007cdf2884fdb3429896f69",
+                "reference": "38bb971606cd25be9007cdf2884fdb3429896f69",
+                "shasum": ""
+            },
+            "require-dev": {
+                "bluehost/wp-php-standards": "^1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "NewfoldLabs\\WP\\Module\\Data\\": "src/"
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "scripts": {
+                "fix": [
+                    "vendor/bin/phpcbf . --standard=Bluehost"
+                ],
+                "lint": [
+                    "vendor/bin/phpcs . --standard=Bluehost -s"
+                ]
+            },
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "Newfold Data Module",
+            "support": {
+                "source": "https://github.com/newfold-labs/wp-module-data/tree/2.0.1",
+                "issues": "https://github.com/newfold-labs/wp-module-data/issues"
+            },
+            "time": "2022-04-19T21:25:10+00:00"
+        }
+    ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",

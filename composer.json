@@ -7,6 +7,19 @@
     {
       "name": "Micah Wood",
       "email": "micah@wpscholar.com"
+    },
+    {
+      "name": "Evan Mullins",
+      "email": "evanrm@gmail.com"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://newfold-labs.github.io/satis/",
+      "only": [
+        "newfold-labs/*"
+      ]
     }
   ],
   "autoload": {
@@ -16,5 +29,8 @@
     "files": [
       "bootstrap.php"
     ]
+  },
+  "require": {
+    "newfold-labs/wp-module-data": "^2.0.0"
   }
 }
