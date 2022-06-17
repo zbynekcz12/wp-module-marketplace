@@ -127,11 +127,17 @@
 				<h3>{ item.name }</h3>
 				{ item.price && <em className="price">{ item.price }</em> }
 			</Components.CardHeader>
-			{ item.description && <Components.CardBody>{ item.description }</Components.CardBody> }
+			{ item.description && 
+                <Components.CardBody 
+                    // Comes from internal source - let's trust ourselves (for now)
+                    dangerouslySetInnerHTML={{ __html: item.description }} 
+                />
+            }
 			<Components.CardFooter>
                 { item.primaryCallToAction && item.primaryUrl &&
                     <Components.Button 
-                        variant="primary" 
+                        variant="primary"
+                        target={ item.clickToBuyId ? undefined : '_blank' }
                         href={ item.clickToBuyId ? undefined : item.primaryUrl }
                         data-action={ item.clickToBuyId ? 'load-nfd-ctb' : undefined }
                         data-ctb-id={ item.clickToBuyId ? item.clickToBuyId : undefined }
@@ -140,7 +146,11 @@
                     </Components.Button>
                 }
                 { item.secondaryCallToAction && item.secondaryUrl &&
-                    <Components.Button variant="secondary" href={ item.secondaryUrl }>
+                    <Components.Button 
+                        variant="secondary"
+                        target="_blank"
+                        href={ item.secondaryUrl }
+                    >
                         { item.secondaryCallToAction }
                     </Components.Button>
                 }
