@@ -43,11 +43,12 @@ import { default as MarketplaceList } from '../marketplaceList/';
             // console.log(response);
             setIsLoading( false );
             // check response for data
-            if ( response['message'] === "Access denied" ) {
+            if ( ! response.hasOwnProperty('data') ) {
                 setIsError( true );
             } else {
-                setMarketplaceItems( response );
-                setMarketplaceCategories( collectCategories( response ) );
+                const products = response['data'];
+                setMarketplaceItems( products );
+                setMarketplaceCategories( collectCategories( products ) );
             }
 		});
 	}, [] );
