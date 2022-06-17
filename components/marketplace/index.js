@@ -9,6 +9,7 @@ import { default as MarketplaceList } from '../marketplaceList/';
  */
  const Marketplace = ({methods, constants, Components, ...props}) => {
     const [ isLoading, setIsLoading ] = methods.useState( true );
+    const [ isError, setIsError ] = methods.useState( false );
 	const [ marketplaceCategories, setMarketplaceCategories ] = methods.useState( ['All'] );
     const [ marketplaceItems, setMarketplaceItems ] = methods.useState( [] );
 	const [ initialTab, setInitialTab ] = methods.useState( 'all' );
@@ -39,9 +40,15 @@ import { default as MarketplaceList } from '../marketplaceList/';
         methods.apiFetch( {
             url: `${constants.resturl}/newfold-marketplace/v1/marketplace`
         }).then( ( response ) => {
+            // console.log(response);
             setIsLoading( false );
-            setMarketplaceItems( response );
-            setMarketplaceCategories( collectCategories( response ) );
+            // check response for data
+            if ( response['message'] === "Access denied" ) {
+                setIsError( true );
+            } else {
+                setMarketplaceItems( response );
+                setMarketplaceCategories( collectCategories( response ) );
+            }
 		});
 	}, [] );
 
@@ -51,6 +58,7 @@ import { default as MarketplaceList } from '../marketplaceList/';
      * @returns 
      */
     const collectCategories = ( products ) => {
+        
 		let thecategories = [
 			{
 				name: 'all',
@@ -58,6 +66,9 @@ import { default as MarketplaceList } from '../marketplaceList/';
                 currentCount: constants.perPage
 			}
 		];
+        if ( ! products.length ) {
+            return thecategories;
+        }
 		let cats = new Set();
 		products.forEach((product) => {
 			product.categories.forEach((category) => {
@@ -95,24 +106,29 @@ import { default as MarketplaceList } from '../marketplaceList/';
             { isLoading && 
                 <Components.Spinner />
             }
-            <Components.TabPanel
-				className="newfold-marketplace-tabs"
-				activeClass="current-tab"
-				orientation="vertical"
-				initialTabName={ initialTab }
-				onSelect={ onTabNavigate }
-				tabs={ marketplaceCategories }
-			>
-				{ ( tab ) => <MarketplaceList
-                    marketplaceItems={marketplaceItems}
-					category={tab.name}
-                    Components={Components}
-					methods={methods}
-					constants={constants}
-                    currentCount={tab.currentCount}
-                    saveCategoryDisplayCount={saveCategoryDisplayCount}
-                /> }
-			</Components.TabPanel>
+            { isError && 
+                <h3>Oops, we encountered an error loading the marketplace, please try again later.</h3>
+            }
+            { !isLoading && !isError &&
+                <Components.TabPanel
+                    className="newfold-marketplace-tabs"
+                    activeClass="current-tab"
+                    orientation="vertical"
+                    initialTabName={ initialTab }
+                    onSelect={ onTabNavigate }
+                    tabs={ marketplaceCategories }
+                >
+                    { ( tab ) => <MarketplaceList
+                        marketplaceItems={marketplaceItems}
+                        category={tab.name}
+                        Components={Components}
+                        methods={methods}
+                        constants={constants}
+                        currentCount={tab.currentCount}
+                        saveCategoryDisplayCount={saveCategoryDisplayCount}
+                    /> }
+                </Components.TabPanel>
+            }
         </div>
     )
 
