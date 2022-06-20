@@ -10,7 +10,7 @@ import { default as MarketplaceList } from '../marketplaceList/';
  const Marketplace = ({methods, constants, Components, ...props}) => {
     const [ isLoading, setIsLoading ] = methods.useState( true );
     const [ isError, setIsError ] = methods.useState( false );
-	const [ marketplaceCategories, setMarketplaceCategories ] = methods.useState( ['All'] );
+	const [ marketplaceCategories, setMarketplaceCategories ] = methods.useState( [] );
     const [ marketplaceItems, setMarketplaceItems ] = methods.useState( [] );
 	const [ initialTab, setInitialTab ] = methods.useState( 'all' );
 
@@ -120,7 +120,6 @@ import { default as MarketplaceList } from '../marketplaceList/';
                     tabs={ marketplaceCategories }
                 >
                     { ( tab ) => <MarketplaceList
-                        key={tab.name}
                         marketplaceItems={marketplaceItems}
                         category={tab.name}
                         Components={Components}

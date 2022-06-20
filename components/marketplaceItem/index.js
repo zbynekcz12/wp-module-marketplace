@@ -134,13 +134,20 @@
                 />
             }
 			<Components.CardFooter>
-                { item.primaryCallToAction && item.primaryUrl &&
-                    <Components.Button 
+                { item.primaryCallToAction && item.clickToBuyId &&
+                    <Components.Button
                         variant="primary"
-                        target={ item.clickToBuyId ? undefined : '_blank' }
-                        href={ item.clickToBuyId ? undefined : item.primaryUrl }
-                        data-action={ item.clickToBuyId ? 'load-nfd-ctb' : undefined }
-                        data-ctb-id={ item.clickToBuyId ? item.clickToBuyId : undefined }
+                        data-action="load-nfd-ctb"
+                        data-ctb-id={ item.clickToBuyId }
+                    >
+                        { item.primaryCallToAction }
+                    </Components.Button>
+                }
+                { item.primaryCallToAction && item.primaryUrl && !item.clickToBuyId &&
+                    <Components.Button
+                        variant="primary"
+                        target="_blank"
+                        href={ item.primaryUrl }
                     >
                         { item.primaryCallToAction }
                     </Components.Button>
