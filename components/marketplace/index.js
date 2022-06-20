@@ -120,6 +120,7 @@ import { default as MarketplaceList } from '../marketplaceList/';
                     tabs={ marketplaceCategories }
                 >
                     { ( tab ) => <MarketplaceList
+                        key={tab.name}
                         marketplaceItems={marketplaceItems}
                         category={tab.name}
                         Components={Components}
