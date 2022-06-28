@@ -125,7 +125,7 @@
 			) }
 			<Components.CardHeader>
 				<h3>{ item.name }</h3>
-				{ item.price_formatted && <em className="price">{ item.price_formatted }</em> }
+				{ item.price > 0 && item.price_formatted && <em className="price">{ item.price_formatted }</em> }
 			</Components.CardHeader>
 			{ item.description && 
                 <Components.CardBody 
