@@ -118,7 +118,7 @@
 
     const renderCTAs = (item) => {
         let primaryCTA, secondaryCTA;
-        if ( item.clickToBuyId && item.primaryCallToAction ) {
+        if ( constants.supportsCTB && item.clickToBuyId && item.primaryCallToAction ) {
             // create CTB button
             primaryCTA = (
                 <Components.Button
