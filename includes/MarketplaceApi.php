@@ -37,7 +37,7 @@ class MarketplaceApi {
 						$marketplace_endpoint = add_query_arg( array(
 							'brand' => container()->plugin()->id,
 							'per_page' => 36,
-						), NFD_HIIVE_URL . '/sites/v1/products' );
+						), NFD_HIIVE_URL . '/marketplace/v1/products' );
 						
 						$response = wp_remote_get(
 							$marketplace_endpoint,
