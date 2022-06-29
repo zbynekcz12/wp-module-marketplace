@@ -116,6 +116,50 @@
 		}
 	}, [] );
 
+    const renderCTAs = (item) => {
+        let primaryCTA, secondaryCTA;
+        if ( constants.supportsCTB && item.clickToBuyId && item.primaryCallToAction ) {
+            // create CTB button
+            primaryCTA = (
+                <Components.Button
+                    variant="primary"
+                    data-action="load-nfd-ctb"
+                    data-ctb-id={ item.clickToBuyId }
+                >
+                    { item.primaryCallToAction }
+                </Components.Button>
+            );
+        } else if ( item.primaryUrl && item.primaryCallToAction ) {
+            // primary cta link
+            primaryCTA = (
+                <Components.Button
+                    variant="primary"
+                    target="_blank"
+                    href={ item.primaryUrl }
+                >
+                    { item.primaryCallToAction }
+                </Components.Button>
+            );
+        }
+        if ( item.secondaryCallToAction && item.secondaryUrl ) {
+            secondaryCTA = (
+                <Components.Button 
+                    variant="secondary"
+                    target="_blank"
+                    href={ item.secondaryUrl }
+                >
+                    { item.secondaryCallToAction }
+                </Components.Button>
+            );
+        }
+        return( 
+            <>
+                { primaryCTA }
+                { secondaryCTA }
+            </>
+        );
+    };
+
     return (
         <Components.Card className={ `marketplace-item marketplace-item-${ item.id }` } id={`marketplace-item-${ item.id }`}>
 			{ item.productThumbnailUrl && (
@@ -125,7 +169,7 @@
 			) }
 			<Components.CardHeader>
 				<h3>{ item.name }</h3>
-				{ item.price && <em className="price">{ item.price }</em> }
+				{ item.price > 0 && item.price_formatted && <em className="price">{ item.price_formatted }</em> }
 			</Components.CardHeader>
 			{ item.description && 
                 <Components.CardBody 
@@ -134,33 +178,7 @@
                 />
             }
 			<Components.CardFooter>
-                { item.primaryCallToAction && item.clickToBuyId &&
-                    <Components.Button
-                        variant="primary"
-                        data-action="load-nfd-ctb"
-                        data-ctb-id={ item.clickToBuyId }
-                    >
-                        { item.primaryCallToAction }
-                    </Components.Button>
-                }
-                { item.primaryCallToAction && item.primaryUrl && !item.clickToBuyId &&
-                    <Components.Button
-                        variant="primary"
-                        target="_blank"
-                        href={ item.primaryUrl }
-                    >
-                        { item.primaryCallToAction }
-                    </Components.Button>
-                }
-                { item.secondaryCallToAction && item.secondaryUrl &&
-                    <Components.Button 
-                        variant="secondary"
-                        target="_blank"
-                        href={ item.secondaryUrl }
-                    >
-                        { item.secondaryCallToAction }
-                    </Components.Button>
-                }
+                { renderCTAs(item) }
 			</Components.CardFooter>
 		</Components.Card>
     );
