@@ -12,7 +12,7 @@ import { default as MarketplaceList } from '../marketplaceList/';
     const [ isError, setIsError ] = methods.useState( false );
 	const [ marketplaceCategories, setMarketplaceCategories ] = methods.useState( [] );
     const [ marketplaceItems, setMarketplaceItems ] = methods.useState( [] );
-	const [ initialTab, setInitialTab ] = methods.useState( 'all' );
+	const [ initialTab, setInitialTab ] = methods.useState( 'Featured' );
 
 	// const location = methods.useLocation();
 	// const navigate = methods.useNavigate();
@@ -60,16 +60,11 @@ import { default as MarketplaceList } from '../marketplaceList/';
      */
     const collectCategories = ( products ) => {
         
-		let thecategories = [
-			{
-				name: 'all',
-				title: 'Everything',
-                currentCount: constants.perPage
-			}
-		];
         if ( ! products.length ) {
-            return thecategories;
+            return;
         }
+        
+		let thecategories = [];
 		let cats = new Set();
 		products.forEach((product) => {
 			product.categories.forEach((category) => {
@@ -83,6 +78,14 @@ import { default as MarketplaceList } from '../marketplaceList/';
                 currentCount: constants.perPage
 			});
 		});
+        thecategories.sort(
+			// sort alphabetically, but stick featured to top
+            function( a, b ) {
+                if(a.name.toLowerCase() === 'featured' || a.name.toLowerCase() < b.name.toLowerCase()) { return -1; }
+                if(b.name.toLowerCase() === 'featured' || a.name.toLowerCase() > b.name.toLowerCase()) { return 1; }
+                return 0;
+            }
+        );
 		return thecategories;
     };
 

@@ -8,7 +8,7 @@ import { default as MarketplaceItem } from '../marketplaceItem/';
  * @param {*} props 
  * @returns 
  */
-const MarketplaceList = ({ marketplaceItems, currentCount, category = 'all', Components, methods, constants, saveCategoryDisplayCount }) => {
+const MarketplaceList = ({ marketplaceItems, currentCount, category, Components, methods, constants, saveCategoryDisplayCount }) => {
     const [ itemsCount, setItemsCount ] = methods.useState( currentCount );
     const [ currentItems, setCurrentItems ] = methods.useState( [] );
     const [ activeItems, setActiveItems ] = methods.useState( [] )
@@ -20,9 +20,7 @@ const MarketplaceList = ({ marketplaceItems, currentCount, category = 'all', Com
      * @returns 
      */
     const filterProductsByCategory = (items, category) => {
-        return items.filter((item) => {
-            return category === 'all' || item.categories.includes( category )
-        });
+        return items.filter((item) => { item.categories.includes( category ) });
     };
 
     /**
