@@ -123,6 +123,7 @@
             primaryCTA = (
                 <Components.Button
                     variant="primary"
+                    className="primary-cta ctb-cta"
                     data-action="load-nfd-ctb"
                     data-ctb-id={ item.clickToBuyId }
                 >
@@ -134,6 +135,7 @@
             primaryCTA = (
                 <Components.Button
                     variant="primary"
+                    className="primary-cta"
                     target="_blank"
                     href={ item.primaryUrl }
                 >
@@ -145,6 +147,7 @@
             secondaryCTA = (
                 <Components.Button 
                     variant="secondary"
+                    className="secondary-cta"
                     target="_blank"
                     href={ item.secondaryUrl }
                 >
