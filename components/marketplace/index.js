@@ -17,10 +17,10 @@ import { default as MarketplaceList } from '../marketplaceList/';
 	// const location = methods.useLocation();
 	// const navigate = methods.useNavigate();
 
-	const onTabNavigate = ( tabName ) => {
+	// const onTabNavigate = ( tabName ) => {
 		// methods.navigate( '/marketplace/' + tabName, { replace: true } );
 		// console.log( tabName );
-	};
+	// };
 
 	// useEffect( () => {
 	// 	if ( location.pathname.includes( '/services' ) ) {
@@ -119,7 +119,7 @@ import { default as MarketplaceList } from '../marketplaceList/';
 					activeClass="current-tab"
 					orientation="vertical"
 					initialTabName={ initialTab }
-					onSelect={ onTabNavigate }
+					// onSelect={ onTabNavigate }
 					tabs={ marketplaceCategories }
 				>
 					{ ( tab ) => <MarketplaceList
