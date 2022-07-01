@@ -12,7 +12,7 @@ import { default as MarketplaceList } from '../marketplaceList/';
 	const [ isError, setIsError ] = methods.useState( false );
 	const [ marketplaceCategories, setMarketplaceCategories ] = methods.useState( [] );
 	const [ marketplaceItems, setMarketplaceItems ] = methods.useState( [] );
-	const [ initialTab, setInitialTab ] = methods.useState( 'Featured' );
+	const [ initialTab, setInitialTab ] = methods.useState();
 
 	// const location = methods.useLocation();
 	// const navigate = methods.useNavigate();
