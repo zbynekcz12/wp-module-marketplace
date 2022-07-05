@@ -20,7 +20,7 @@ const MarketplaceList = ({ marketplaceItems, currentCount, category, Components,
 	 * @returns 
 	 */
 	const filterProductsByCategory = (items, category) => {
-		return items.filter((item) => { item.categories.includes( category ) });
+		return items.filter((item) => { return item.categories.includes( category ) });
 	};
 
 	/**
