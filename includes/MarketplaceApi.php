@@ -32,12 +32,25 @@ class MarketplaceApi {
 					
 					$marketplace = get_transient( self::TRANSIENT );
 
-					if ( false === $marketplace ) { 
-
-						$marketplace_endpoint = add_query_arg( array(
+					if ( false === $marketplace ) {
+						$args = array(
+							// brand defaults to plugin id
 							'brand' => container()->plugin()->id,
 							'per_page' => 36,
-						), NFD_HIIVE_URL . '/marketplace/v1/products' );
+						);
+						// if brand and region are set on container, use those for brand
+						if ( container()->brand && container()->region ) {
+							$args['brand'] = container()->brand . '_' . container()->region;
+						} 
+						// or if only brand is set on container, use that for brand
+						elseif ( container()->brand ) {
+							$args['brand'] = container()->brand;
+						}
+						// construct endpoint with args
+						$marketplace_endpoint = add_query_arg(
+							$args,
+							NFD_HIIVE_URL . '/marketplace/v1/products'
+						);
 						
 						$response = wp_remote_get(
 							$marketplace_endpoint,
