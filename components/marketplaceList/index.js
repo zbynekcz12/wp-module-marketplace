@@ -52,7 +52,7 @@ const MarketplaceList = ({ marketplaceItems, currentCount, category, Components,
 	}, []);
 
 	/**
-	 * recalculate activeItems if currnetItems or itemsCount changes
+	 * recalculate activeItems if currentItems or itemsCount changes
 	 */
 	methods.useEffect(() => {
 		setActiveItems( setProductListCount(currentItems, itemsCount) );
