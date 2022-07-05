@@ -20,7 +20,9 @@ const MarketplaceList = ({ marketplaceItems, currentCount, category, Components,
 	 * @returns 
 	 */
 	const filterProductsByCategory = (items, category) => {
-		return items.filter((item) => { item.categories.includes( category ) });
+		return items.filter((item) => {
+			return item.categories.includes( category );
+		});
 	};
 
 	/**
@@ -52,7 +54,7 @@ const MarketplaceList = ({ marketplaceItems, currentCount, category, Components,
 	}, []);
 
 	/**
-	 * recalculate activeItems if currnetItems or itemsCount changes
+	 * recalculate activeItems if currentItems or itemsCount changes
 	 */
 	methods.useEffect(() => {
 		setActiveItems( setProductListCount(currentItems, itemsCount) );
