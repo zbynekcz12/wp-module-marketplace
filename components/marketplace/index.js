@@ -40,7 +40,6 @@ import { default as MarketplaceList } from '../marketplaceList/';
 		methods.apiFetch( {
 			url: `${constants.resturl}/newfold-marketplace/v1/marketplace`
 		}).then( ( response ) => {
-			// console.log(response);
 			setIsLoading( false );
 			// check response for data
 			if ( ! response.hasOwnProperty('data') ) {
@@ -54,6 +53,22 @@ import { default as MarketplaceList } from '../marketplaceList/';
 	}, [] );
 
 	/**
+	 * When marketplaceItems changes
+	 * verify that there are products
+	 */
+	 methods.useEffect(() => {
+		// only after a response
+		if ( !isLoading ) {
+			// if no marketplace items, display error
+			if ( marketplaceItems.length < 1 ) {
+				setIsError( true );
+			} else {
+				setIsError( false );
+			}
+		}
+	}, [ marketplaceItems ] );
+
+	/**
 	 * map all categories into an array for consuming by tabpanel component
 	 * @param Array products 
 	 * @returns 
@@ -61,7 +76,7 @@ import { default as MarketplaceList } from '../marketplaceList/';
 	const collectCategories = ( products ) => {
 		
 		if ( ! products.length ) {
-			return;
+			return [];
 		}
 		
 		let thecategories = [];
@@ -118,7 +133,7 @@ import { default as MarketplaceList } from '../marketplaceList/';
 				<Components.Spinner />
 			}
 			{ isError && 
-				<h3>Oops, we encountered an error loading the marketplace, please try again later.</h3>
+				<h3>Oops, there was an error loading the marketplace, please try again later.</h3>
 			}
 			{ !isLoading && !isError &&
 				<Components.TabPanel

@@ -71,8 +71,7 @@ const MarketplaceList = ({ marketplaceItems, currentCount, category, Components,
 	return (
 		<div className="marketplaceList">
 			<div className="grid col2">
-				{
-				activeItems.map((item) => (
+				{ activeItems.length > 0 && activeItems.map((item) => (
 						<MarketplaceItem
 							key={item.hash} 
 							item={item}
@@ -81,6 +80,9 @@ const MarketplaceList = ({ marketplaceItems, currentCount, category, Components,
 							constants={constants}
 						/>
 					))
+				}
+				{ !activeItems.length &&
+					<p>Sorry, no marketplace items. Please, try again later.</p>
 				}
 			</div>
 			{ currentItems && currentItems.length > itemsCount &&
