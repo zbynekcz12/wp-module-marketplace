@@ -94,17 +94,13 @@ import { default as MarketplaceList } from '../marketplaceList/';
 			});
 		});
 		thecategories.sort(
-			// sort alphabetically, but stick featured to top
 			function( a, b ) {
-				if( a.name.toLowerCase() === 'featured' ) {
-					return -1;
-				} else if ( b.name.toLowerCase() === 'featured' ) {
-					return 1;
-				} else if ( a.name.toLowerCase() < b.name.toLowerCase() ) { 
-					return -1;
-				} else if ( a.name.toLowerCase() > b.name.toLowerCase() ) { 
-					return 1;
-				}
+				// stick featured to top
+				if ( a.name.toLowerCase() === 'featured' ) { return -1; }
+				if ( b.name.toLowerCase() === 'featured' ) { return 1; }
+				// sort the rest alphabetically
+				if ( a.name.toLowerCase() < b.name.toLowerCase()) { return -1; }
+				if ( a.name.toLowerCase() > b.name.toLowerCase()) { return 1; }
 				return 0;
 			}
 		);
