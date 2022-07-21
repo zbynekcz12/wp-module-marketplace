@@ -34,18 +34,15 @@ class MarketplaceApi {
 
 					if ( false === $marketplace ) {
 						$args = array(
-							// brand defaults to plugin id
-							'brand' => container()->plugin()->id,
 							'per_page' => 36,
+							// if marketplace brand is set on container, 
+							//  use it as brand override, 
+							//  otherwise use plugin id (default)
+							'brand'    => container()->has('marketplace_brand') ?
+											container()->get('marketplace_brand') :
+											container()->plugin()->id,
 						);
-						// if brand and region are set on container, use those for brand
-						if ( container()->brand && container()->region ) {
-							$args['brand'] = container()->brand . '_' . container()->region;
-						} 
-						// or if only brand is set on container, use that for brand
-						elseif ( container()->brand ) {
-							$args['brand'] = container()->brand;
-						}
+
 						// construct endpoint with args
 						$marketplace_endpoint = add_query_arg(
 							$args,
