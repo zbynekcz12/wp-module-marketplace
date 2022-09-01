@@ -1,4 +1,5 @@
 import { default as MarketplaceList } from '../marketplaceList/';
+import { default as MarketplaceIsLoading } from '../marketplaceIsLoading/';
 
 /**
  * Marketplace Module
@@ -139,10 +140,21 @@ import { default as MarketplaceList } from '../marketplaceList/';
 		setMarketplaceCategories( updatedMarketplaceCategories );
 	};
 
+	/**
+	 * render marketplace preloader
+	 * 
+	 * @returns React Component
+	 */
+	 const renderSkeleton = () => {
+		// render default skeleton
+		return <MarketplaceIsLoading />;
+	}
+
+
 	return (
 		<div className={methods.classnames('newfold-marketplace-wrapper')}>
 			{ isLoading && 
-				<Components.Spinner />
+				renderSkeleton()
 			}
 			{ isError && 
 				<h3>Oops, there was an error loading the marketplace, please try again later.</h3>
