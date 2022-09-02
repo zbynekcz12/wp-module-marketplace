@@ -1,4 +1,4 @@
-import "./marketplaceSkeleton.scss";
+import './stylesheet.scss';
 
 /**
  * MarketplaceSkeleton Component

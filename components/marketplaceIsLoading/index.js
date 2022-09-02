@@ -1,6 +1,7 @@
-import MarketplaceFilterBarSkeleton from "./MarketplaceFilterBarSkeleton";
-import MarketplaceItemSkeleton from "./MarketplaceItemSkeleton";
-import './marketplaceIsloading.scss';
+import './stylesheet.scss';
+
+import MarketplaceFilterBarSkeleton from './MarketplaceFilterBarSkeleton';
+import MarketplaceItemSkeleton from './MarketplaceItemSkeleton';
 
 /**
  * MarketPlaceIsLoading Component
