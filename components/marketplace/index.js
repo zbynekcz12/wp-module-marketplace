@@ -80,6 +80,7 @@ import { default as MarketplaceIsLoading } from '../marketplaceIsLoading/';
 				}
 			}
 			setIsLoading( false );
+			applyStyles();
 		}
 	}, [ marketplaceCategories ] );
 
@@ -97,6 +98,7 @@ import { default as MarketplaceIsLoading } from '../marketplaceIsLoading/';
 		let thecategories = [];
 		categories.forEach((cat)=>{
 			cat.currentCount = constants.perPage;
+			cat.className = 'newfold-marketplace-tab-'+cat.name;
 
 			if ( cat.products_count > 0 ) {
 				thecategories.push(cat);
@@ -114,12 +116,31 @@ import { default as MarketplaceIsLoading } from '../marketplaceIsLoading/';
 	const saveCategoryDisplayCount = (categoryName, newCount) => {
 		let updatedMarketplaceCategories = [...marketplaceCategories];
 		// find matching cat, and update perPage amount
-		updatedMarketplaceCategories.forEach((cat)=>{
+		updatedMarketplaceCategories.forEach( (cat) => {
 			if (cat.name === categoryName ) {
 				cat.currentCount = newCount;
 			}
 		});
 		setMarketplaceCategories( updatedMarketplaceCategories );
+	};
+
+	/**
+	 * Apply styles if they exist
+	 */
+	 const applyStyles = () => {
+		if ( marketplaceCategories ) {
+			marketplaceCategories.forEach( (category) => {
+				if( 
+					category.styles && // category has styles
+					!document.querySelector('[data-styleid="' + category.className + '"]') // not already added
+				) {
+					const style = document.createElement("style")
+					style.textContent = category.styles;
+					style.dataset.styleid = category.className;
+					document.head.appendChild(style);
+				}
+			});
+		}
 	};
 
 	/**
@@ -145,14 +166,14 @@ import { default as MarketplaceIsLoading } from '../marketplaceIsLoading/';
 				<Components.TabPanel
 					className="newfold-marketplace-tabs"
 					activeClass="current-tab"
-					orientation="vertical"
+					orientation="horizontal"
 					initialTabName={ initialTab }
 					onSelect={ onTabNavigate }
 					tabs={ marketplaceCategories }
 				>
 					{ ( tab ) => <MarketplaceList
 						marketplaceItems={marketplaceItems}
-						category={tab.title}
+						category={tab}
 						Components={Components}
 						methods={methods}
 						constants={constants}
