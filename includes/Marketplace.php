@@ -4,6 +4,9 @@ namespace NewfoldLabs\WP\Module\Marketplace;
 
 use NewfoldLabs\WP\ModuleLoader\Container;
 
+/**
+ * Class for handling the initialization of the marketplace module.
+ */
 class Marketplace {
 
 	/**
@@ -16,7 +19,7 @@ class Marketplace {
 	/**
 	 * Constructor.
 	 *
-	 * @param Container $container
+	 * @param Container $container The plugin container.
 	 */
 	public function __construct( Container $container ) {
 

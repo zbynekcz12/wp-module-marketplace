@@ -2,9 +2,6 @@
 
 namespace NewFoldLabs\WP\Module\Marketplace;
 
-// use WP_Forge\Helpers\Arr;
-
-use NewfoldLabs\WP\Module\Data\HiiveConnection;
 use function NewfoldLabs\WP\ModuleLoader\container;
 
 /**
@@ -27,8 +24,8 @@ class MarketplaceApi {
 			'newfold-marketplace/v1',
 			'/marketplace',
 			array(
-				'methods'  => \WP_REST_Server::READABLE,
-				'callback' => __CLASS__ . '::marketplace_callback',
+				'methods'             => \WP_REST_Server::READABLE,
+				'callback'            => __CLASS__ . '::marketplace_callback',
 				'permission_callback' => function () {
 					return current_user_can( 'manage_options' );
 				},
@@ -40,8 +37,8 @@ class MarketplaceApi {
 	/**
 	 * Set the transient where marketplace is stored.
 	 *
-	 * @param string     $data json of marketplace.
-	 * @param float|int  $expiration    Transient expiration.
+	 * @param string    $data json of marketplace.
+	 * @param float|int $expiration    Transient expiration.
 	 */
 	public static function setTransient( $data, $expiration = DAY_IN_SECONDS ) {
 		set_transient( self::TRANSIENT, $data, $expiration );
@@ -49,6 +46,10 @@ class MarketplaceApi {
 
 	/**
 	 * Get expiration from response
+	 *
+	 * @param array $marketplace Response from marketplace endpoint.
+	 *
+	 * @return float|int|mixed
 	 */
 	public static function get_expiration( $marketplace ) {
 		// get response['meta']['ttl'] if it exists, otherwise set to default 24hrs
@@ -61,34 +62,41 @@ class MarketplaceApi {
 
 	/**
 	 * Get marketplace data
+	 *
+	 * @param \WP_REST_Request $request Request object.
+	 *
+	 * @return \WP_Error|\WP_HTTP_Response|\WP_REST_Response
+	 *
+	 * @throws \NewfoldLabs\Container\NotFoundException When item is not found in the container.
+	 * @throws \WP_Forge\Container\NotFoundException When item is not found in the container.
 	 */
 	public static function marketplace_callback( \WP_REST_Request $request ) {
-					
+
 		$marketplace = get_transient( self::TRANSIENT );
 
 		if ( false === $marketplace ) {
 
 			$args = array(
 				'per_page' => 60,
-				// if marketplace brand is set on container, 
-				//  use it as brand override, 
-				//  otherwise use plugin id (default)
-				'brand'    => container()->has('marketplace_brand') ?
-								container()->get('marketplace_brand') :
+				// if marketplace brand is set on container,
+				// use it as brand override,
+				// otherwise use plugin id (default)
+				'brand'    => container()->has( 'marketplace_brand' ) ?
+								container()->get( 'marketplace_brand' ) :
 								container()->plugin()->id,
 			);
 
-			$products = self::product_data( $args );
+			$products   = self::product_data( $args );
 			$categories = self::category_data( $args );
 
 			if ( $products && $categories ) {
-				$marketplace = json_encode(
+				$marketplace = wp_json_encode(
 					array(
 						'categories' => $categories,
-						'products'   => $products
-				 	)
+						'products'   => $products,
+					)
 				);
-				$expiration = self::get_expiration( $products );
+				$expiration  = self::get_expiration( $products );
 				self::setTransient( $marketplace, $expiration );
 			}
 		}
@@ -97,28 +105,26 @@ class MarketplaceApi {
 
 	/**
 	 * Get product data from products endpoint
-	 * 
-	 * @param Array $args
+	 *
+	 * @param array $args Query arguments for endpoint request.
 	 */
-	public static function product_data( $args ){
+	public static function product_data( $args ) {
 		// construct endpoint with args
 		$marketplace_endpoint = add_query_arg(
 			$args,
 			NFD_HIIVE_URL . '/marketplace/v1/products'
 		);
-		
+
 		$response = wp_remote_get(
 			$marketplace_endpoint,
 			array(
 				'headers' => array(
-					'Content-Type'  => 'application/json',
-					'Accept'        => 'application/json',
-					// 'Authorization' => 'Bearer ' . HiiveConnection::get_auth_token(), // not needed since it's now a publicly accessible endpoint
+					'Content-Type' => 'application/json',
+					'Accept'       => 'application/json',
 				),
 			)
 		);
-			
-		// return rest_ensure_response( $response );
+
 		if ( ! is_wp_error( $response ) ) {
 			$body = wp_remote_retrieve_body( $response );
 			$data = json_decode( $body, true );
@@ -136,28 +142,26 @@ class MarketplaceApi {
 
 	/**
 	 * Get category data from categories endpoint
-	 * 
-	 * @param Array $args
+	 *
+	 * @param array $args Query arguments for endpoint request.
 	 */
-	public static function category_data( $args ){
+	public static function category_data( $args ) {
 		// construct endpoint with args
 		$category_endpoint = add_query_arg(
 			$args,
 			NFD_HIIVE_URL . '/marketplace/v1/products/categories'
 		);
-		
+
 		$response = wp_remote_get(
 			$category_endpoint,
 			array(
 				'headers' => array(
-					'Content-Type'  => 'application/json',
-					'Accept'        => 'application/json',
-					// 'Authorization' => 'Bearer ' . HiiveConnection::get_auth_token(), // not needed since it's now a publicly accessible endpoint
+					'Content-Type' => 'application/json',
+					'Accept'       => 'application/json',
 				),
 			)
 		);
-			
-		// return rest_ensure_response( $response );
+
 		if ( ! is_wp_error( $response ) ) {
 			$body = wp_remote_retrieve_body( $response );
 			$data = json_decode( $body, true );

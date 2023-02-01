@@ -12,7 +12,7 @@ if ( function_exists( 'add_action' ) ) {
 		function () {
 
 			register(
-				[
+				array(
 					'name'     => 'marketplace',
 					'label'    => __( 'Marketplace', 'newfold-module-marketplace' ),
 					'callback' => function ( Container $container ) {
@@ -20,7 +20,7 @@ if ( function_exists( 'add_action' ) ) {
 					},
 					'isActive' => true,
 					'isHidden' => true,
-				]
+				)
 			);
 
 		}
