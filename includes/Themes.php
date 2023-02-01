@@ -111,7 +111,7 @@ class Themes {
 	 * Adds Upload Theme page to WordPress
 	 */
 	public static function upload_theme_page() {
-		if ( ! isset( $_GET['page'] ) || 'upload-theme' !== $_GET['page'] ) {
+		if ( ! isset( $_GET['page'] ) || 'upload-theme' !== $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return;
 		}
 
@@ -146,7 +146,7 @@ class Themes {
 			const themesFilterContainer = document.querySelector('.wp-filter .filter-links');
 			const marketplacePremiumThemesLink = document.createElement('li');
 
-			marketplacePremiumThemesLink.innerHTML = '<a style="text-decoration: none;" onclick="location.href=\'<?php echo esc_url( admin_url( 'admin.php?page=' . container()->plugin()->id . '#/marketplace/themes' ) ); ?>\'"><?php esc_html_e( 'Premium', container()->plugin()->id . '-wordpress-plugin' ); ?></a>';
+			marketplacePremiumThemesLink.innerHTML = '<a style="text-decoration: none;" onclick="location.href=\'<?php echo esc_url( admin_url( 'admin.php?page=' . container()->plugin()->id . '#/marketplace/themes' ) ); ?>\'"><?php esc_html_e( 'Premium', 'newfold-marketplace-module' ); ?></a>';
 			themesFilterContainer.appendChild(marketplacePremiumThemesLink);
 		});
 		</script>
@@ -157,13 +157,12 @@ class Themes {
 	/**
 	 * Filters query arguments to only retrieve block themes (full-site-editing) from the WordPress.org Themes API.
 	 *
-	 *  @since 2.8.0
-	 *
-	 * @param object $args   Arguments used to query for installer pages from the WordPress.org Themes API.
+	 *  @param object $args   Arguments used to query for installer pages from the WordPress.org Themes API.
 	 * @param string $action Requested action. Likely values are 'theme_information',
 	 *                       'feature_list', or 'query_themes'.
 	 *
 	 * @return object updated $args for this request.
+	 * @since 2.8.0
 	 */
 	public static function query_block_themes_args( $args, $action ) {
 
@@ -186,14 +185,13 @@ class Themes {
 	/**
 	 * Sorts the returned WordPress.org Themes API response to show self::$priority_themes on top.
 	 *
-	 * @since 2.8.0
-	 *
 	 * @param array|stdClass|WP_Error $res    WordPress.org Themes API response.
 	 * @param string                  $action Requested action. Likely values are 'theme_information',
 	 *                                        'feature_list', or 'query_themes'.
 	 * @param stdClass                $args   Arguments used to query for installer pages from the WordPress.org Themes API.
 	 *
 	 * @return stdClass $res sorted themes with self::$priority_themes on top.
+	 * @since 2.8.0
 	 */
 	public static function sort_query_themes_results( $res, $action, $args ) {
 
@@ -223,12 +221,12 @@ class Themes {
 		?>
 
 		<style>
-            <?php
-                echo '.' . container()->plugin()->id . '-recommended-theme {
+			<?php
+				echo '.' . sanitize_html_class( container()->plugin()->id ) . '-recommended-theme {
                     box-shadow: 0 0 0 3px #a4acb9;
                 }
 
-                .' . container()->plugin()->id . '-recommended-theme::after {
+                .' . sanitize_html_class( container()->plugin()->id ) . '-recommended-theme::after {
                     content: "Recommended";
                     position: absolute;
                     top: -15px;
@@ -238,7 +236,7 @@ class Themes {
                     padding: 5px 10px;
                     border-radius: 1.5px;
                 }'
-            ?>
+			?>
 		</style>
 
 		<script type="text/javascript">
@@ -253,7 +251,7 @@ class Themes {
 							const themes = document.querySelector('.theme-browser .themes');
 							const yithTheme = themesContainer.querySelector('.theme[data-slug="' + recommendedThemeSlug + '"]');
 							if (yithTheme) {
-								yithTheme.classList.add('<?php echo container()->plugin()->id . "-recommended-theme"; ?>');
+								yithTheme.classList.add('<?php echo esc_js( container()->plugin()->id . '-recommended-theme' ); ?>');
 							}
 						}
 					}
