@@ -8,29 +8,21 @@ import { default as MarketplaceIsLoading } from '../marketplaceIsLoading/';
  * @param {*} props 
  * @returns 
  */
- const Marketplace = ({methods, constants, Components, ...props}) => {
+ const Marketplace = ({methods, constants, ...props}) => {
 	const [ isLoading, setIsLoading ] = methods.useState( true );
 	const [ isError, setIsError ] = methods.useState( false );
 	const [ marketplaceCategories, setMarketplaceCategories ] = methods.useState( [] );
 	const [ marketplaceItems, setMarketplaceItems ] = methods.useState( [] );
-	const [ initialTab, setInitialTab ] = methods.useState();
-	const navigate = methods.useNavigate();
-	const location = methods.useLocation();
-
-	/**
-	 * Update url when navigating between tabs
-	 * @param string tab name 
-	 */
-	const onTabNavigate = ( tabName ) => {
-		navigate( '/marketplace/' + tabName, { replace: true } );
-	};
+    const [ products, setProducts ] = methods.useState( [] );
+    const [ activeCategoryIndex, setActiveCategoryIndex ] = methods.useState( 0 );
+	let location = methods.useLocation();
 
 	/**
 	 * on mount load all marketplace data from module api
 	 */
 	methods.useEffect(() => {
 		methods.apiFetch( {
-			url: `${constants.resturl}/newfold-marketplace/v1/marketplace`
+			url: methods.NewfoldRuntime.createApiUrl( `/newfold-marketplace/v1/marketplace` )
 		}).then( ( response ) => {
 			// check response for data
 			if ( ! response.hasOwnProperty('categories') || ! response.hasOwnProperty('products') ) {
@@ -56,33 +48,53 @@ import { default as MarketplaceIsLoading } from '../marketplaceIsLoading/';
 				setIsError( false );
 			}
 		}
-	}, [ marketplaceItems ] );
+	}, [ marketplaceItems, products ] );
 
 	/**
 	 * When marketplaceCategories changes
 	 * verify that the tab is a category
 	 */
 	 methods.useEffect(() => {
+		let aci = 0;
 		// only before rendered, but after categories are populated
-		if ( isLoading && marketplaceCategories.length > 1 ) {
+		if ( marketplaceCategories.length > 1 ) {
 			// read initial tab from path
 			if ( location.pathname.includes( 'marketplace/' ) ) {
 				const urlpath = location.pathname.substring( 
 					location.pathname.lastIndexOf( '/' ) + 1
 				);
+
 				// make sure a category exists for that path
-				if ( urlpath && marketplaceCategories.filter(cat => cat.name === urlpath ).length == 0 ) {
-					// if not found, set to featured category
-					setInitialTab( 0 );
-				} else {
-					// if found, set that to the initial tab
-					setInitialTab( urlpath );
+				if ( urlpath && marketplaceCategories.filter(cat => cat.name === urlpath ).length != 0 ) {
+					// if found, set the active category
+					marketplaceCategories.forEach((cat, i) => {
+						if ( cat.name === urlpath ) {
+							aci = i;
+						}
+					});
 				}
 			}
-			setIsLoading( false );
+			setActiveCategoryIndex( aci );
+			filterProducts( aci );
 			applyStyles();
 		}
-	}, [ marketplaceCategories ] );
+	}, [ marketplaceCategories, location.pathname ] );
+
+	/**
+	 * Filter products based on urlpath
+	 */
+	const filterProducts = ( activeCategoryIndex ) => {
+		const category = marketplaceCategories[activeCategoryIndex].name;
+        const filterdProducts = marketplaceItems.filter((product) => {
+            return product.categories.some(element => {
+                return element.toLowerCase() === category.toLowerCase();
+              });
+              
+        });            
+
+        setProducts(filterdProducts);
+        setIsLoading(false);
+    };
 
 	/**
 	 * Validate provided category data
@@ -98,7 +110,7 @@ import { default as MarketplaceIsLoading } from '../marketplaceIsLoading/';
 		let thecategories = [];
 		categories.forEach((cat)=>{
 			cat.currentCount = constants.perPage;
-			cat.className = 'newfold-marketplace-tab-'+cat.name;
+			cat.className = 'newfold-marketplace-category-'+cat.name;
 
 			if ( cat.products_count > 0 ) {
 				thecategories.push(cat);
@@ -153,7 +165,6 @@ import { default as MarketplaceIsLoading } from '../marketplaceIsLoading/';
 		return <MarketplaceIsLoading />;
 	}
 
-
 	return (
 		<div className={methods.classnames('newfold-marketplace-wrapper')}>
 			{ isLoading && 
@@ -163,24 +174,14 @@ import { default as MarketplaceIsLoading } from '../marketplaceIsLoading/';
 				<h3>Oops, there was an error loading the marketplace, please try again later.</h3>
 			}
 			{ !isLoading && !isError &&
-				<Components.TabPanel
-					className="newfold-marketplace-tabs"
-					activeClass="current-tab"
-					orientation="horizontal"
-					initialTabName={ initialTab }
-					onSelect={ onTabNavigate }
-					tabs={ marketplaceCategories }
-				>
-					{ ( tab ) => <MarketplaceList
-						marketplaceItems={marketplaceItems}
-						category={tab}
-						Components={Components}
+					<MarketplaceList
+						marketplaceItems={products}
+						category={marketplaceCategories[activeCategoryIndex]}
+						currentCount={marketplaceCategories[activeCategoryIndex].currentCount}
 						methods={methods}
 						constants={constants}
-						currentCount={tab.currentCount}
-						saveCategoryDisplayCount={saveCategoryDisplayCount}
-					/> }
-				</Components.TabPanel>
+					/>
+
 			}
 		</div>
 	)

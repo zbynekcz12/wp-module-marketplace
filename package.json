@@ -3,8 +3,15 @@
   "description": "A module for rendering product data and interacting with the Hiive marketplace API.",
   "license": "GPL-2.0-or-later",
   "private": true,
-  "author": {
-    "name": "Micah Wood",
-    "email": "micah@wpscholar.com"
+  "contributors": [
+    "Abdulrahman Al Ani (https://alani.dev/)",
+    "Evan Mullins (https://evanmullins.com)",
+    "Jonathan Desrosiers (https://jonathandesrosiers.com)",
+    "Micah Wood (https://wpscholar.com)",
+    "William Earnhardt (https://wearnhardt.com)"
+  ],
+  "dependencies": {
+    "@heroicons/react": "^2.0.18",
+    "@newfold/ui-component-library": "^0.1.1-3"
   }
 }
