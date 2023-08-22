@@ -22,7 +22,7 @@ import { default as MarketplaceIsLoading } from '../marketplaceIsLoading/';
 	 */
 	methods.useEffect(() => {
 		methods.apiFetch( {
-			url: methods.NewfoldRuntime.createApiUrl( `/newfold-marketplace/v1/marketplace` )
+			url: methods.NewfoldRuntime.createApiUrl( '/newfold-marketplace/v1/marketplace' )
 		}).then( ( response ) => {
 			// check response for data
 			if ( ! response.hasOwnProperty('categories') || ! response.hasOwnProperty('products') ) {

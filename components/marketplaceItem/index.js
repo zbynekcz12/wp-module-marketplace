@@ -24,7 +24,7 @@ import { ArrowRightIcon } from "@heroicons/react/24/outline";
 		event.data = event.data || {};
 		event.data.page = window.location.href;
 		methods.apiFetch({
-			url: `${constants.resturl}${constants.eventendpoint}`,
+			url: methods.NewfoldRuntime.createApiUrl( constants.eventendpoint ),
 			method: 'POST', 
 			data: event
 		});
