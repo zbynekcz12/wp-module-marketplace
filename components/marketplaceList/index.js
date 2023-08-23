@@ -1,5 +1,6 @@
 
 import { default as MarketplaceItem } from '../marketplaceItem/';
+import { Button, Title } from "@newfold/ui-component-library";
 
 /**
  * MarketplaceList Component
@@ -8,7 +9,7 @@ import { default as MarketplaceItem } from '../marketplaceItem/';
  * @param {*} props 
  * @returns 
  */
-const MarketplaceList = ({ marketplaceItems, currentCount, category, Components, methods, constants, saveCategoryDisplayCount }) => {
+const MarketplaceList = ({ marketplaceItems, currentCount, category, methods, constants }) => {
 	const [ itemsCount, setItemsCount ] = methods.useState( currentCount );
 	const [ currentItems, setCurrentItems ] = methods.useState( [] );
 	const [ activeItems, setActiveItems ] = methods.useState( [] )
@@ -51,7 +52,7 @@ const MarketplaceList = ({ marketplaceItems, currentCount, category, Components,
 	 */
 	methods.useEffect(() => {
 		setCurrentItems( filterProductsByCategory(marketplaceItems, category) );
-	}, []);
+	}, [ marketplaceItems ]);
 
 	/**
 	 * recalculate activeItems if currentItems or itemsCount changes
@@ -64,40 +65,42 @@ const MarketplaceList = ({ marketplaceItems, currentCount, category, Components,
 	 * pass up itemsCount for this list when it changes
 	 * this is so users don't need to load more every time they click back into a category
 	 */
-	methods.useEffect(() => {
-		saveCategoryDisplayCount( category.name, itemsCount );
-	}, [ itemsCount ] );
+	// methods.useEffect(() => {
+	// 	saveCategoryDisplayCount( category.name, itemsCount );
+	// }, [ itemsCount ] );
 
 	return (
-		<div className={ `marketplace-list marketplace-list-${ category.name }` }>
-			<div className="grid col2">
+		<>
+			<Title as="h2" size="3" className="marketplace-category-title nfd-text-2xl nfd-font-medium nfd-text-title nfd-pb-6">
+				{category.title}
+			</Title>
+			<div className={ `marketplace-list marketplace-list-${ category.name } wppbh-app-marketplace-list nfd-grid nfd-gap-6 nfd-grid-cols-1 min-[1120px]:nfd-grid-cols-2 min-[1400px]:nfd-grid-cols-3` }>
 				{ activeItems.length > 0 && activeItems.map((item) => (
-						<MarketplaceItem
-							key={item.hash} 
-							item={item}
-							Components={Components}
-							methods={methods}
-							constants={constants}
-						/>
+					<MarketplaceItem
+						key={item.id} 
+						item={item}
+						methods={methods}
+						constants={constants}
+					/>
 					))
 				}
 				{ !activeItems.length &&
 					<p>Sorry, no marketplace items. Please, try again later.</p>
 				}
+				{ currentItems && currentItems.length > itemsCount &&
+					<div style={{ display: 'flex', margin: '1rem 0'}}>
+						<Button
+							onClick={loadMoreClick}
+							variant="primary" 
+							className="align-center"
+							style={{margin: 'auto'}}
+							>
+							Load More
+						</Button>
+					</div>
+				}
 			</div>
-			{ currentItems && currentItems.length > itemsCount &&
-				<div style={{ display: 'flex', margin: '1rem 0'}}>
-					<Components.Button
-						onClick={loadMoreClick}
-						variant="primary" 
-						className="align-center"
-						style={{margin: 'auto'}}
-					>
-						Load More
-					</Components.Button>
-				</div>
-			}
-		</div>
+		</>
 	)
 };
 

@@ -1,3 +1,11 @@
+import { 
+    Button,
+    Card,
+    Link,
+    Title
+} from "@newfold/ui-component-library";
+import { ArrowRightIcon } from "@heroicons/react/24/outline";
+
 /**
  * MarketplaceItem Component
  * For use in Marketplace to display marketplace items
@@ -5,7 +13,7 @@
  * @param {*} props 
  * @returns 
  */
- const MarketplaceItem = ({ item, Components, methods, constants }) => {
+ const MarketplaceItem = ({ item, methods, constants }) => {
 
 	/**
 	 * Send events to the WP REST API
@@ -16,7 +24,7 @@
 		event.data = event.data || {};
 		event.data.page = window.location.href;
 		methods.apiFetch({
-			url: `${constants.resturl}${constants.eventendpoint}`,
+			url: methods.NewfoldRuntime.createApiUrl( constants.eventendpoint ),
 			method: 'POST', 
 			data: event
 		});
@@ -120,7 +128,7 @@
 		let primaryCTA, secondaryCTA;
 		if ( item.primaryUrl && item.primaryCallToAction ) {
 			primaryCTA = (
-				<Components.Button
+				<Button
 					variant="primary"
 					className="primary-cta"
 					target="_blank"
@@ -133,20 +141,20 @@
 					}
 				>
 					{ item.primaryCallToAction }
-				</Components.Button>
+				</Button>
 			);
 		}
 
 		if ( item.secondaryCallToAction && item.secondaryUrl ) {
 			secondaryCTA = (
-				<Components.Button 
+				<Button 
 					variant="secondary"
 					className="secondary-cta"
 					target="_blank"
 					href={ item.secondaryUrl }
 				>
 					{ item.secondaryCallToAction }
-				</Components.Button>
+				</Button>
 			);
 		}
 		return( 
@@ -157,54 +165,84 @@
 		);
 	};
 
+	const renderPrimaryCTA = (item) => {
+		let primaryCTA = '';
+
+		if ( item.primaryCallToAction && item.primaryUrl ) {
+			if (constants.supportsCTB && item.clickToBuyId) {
+				primaryCTA = (
+					<Button
+						as="a"
+						href={item.primaryUrl}
+						target="_blank"
+						data-action="load-nfd-ctb"
+						data-ctb-id={item.clickToBuyId}
+					>
+						{item.primaryCallToAction}
+					</Button>
+				);
+			} else {
+				primaryCTA = (
+					<Button
+						as="a"
+						href={item.primaryUrl}
+						target="_blank"
+					>
+						{item.primaryCallToAction}
+					</Button>
+				);
+			}
+		}
+
+		return ( primaryCTA );
+    };
+
 	const renderPrice = (item) => {
-		let pricewrap, price, fullprice;
+		let pricewrap, price, fullprice = '';
 		if ( item.price > 0 && item.price_formatted ) {
 			price =  (
-				<div className="price">{ item.price_formatted }</div>
+				<span className="marketplace-item-price nfd-bg-[#E2E8F0] nfd-py-1 nfd-px-3 nfd-rounded-full">{ item.price_formatted }</span>
 			);
 			if ( item.full_price > 0 && item.full_price_formatted ) {
 				fullprice =  (
-					<s className="price full-price">{ item.full_price_formatted }</s>
-				);	
-				pricewrap = (
-					<div className="price-wrap has-full-price">
-						{ fullprice }
-						{ price }
-					</div>
-				);
-			} else {
-				pricewrap = (
-					<div className="price-wrap">
-						{ price }
-					</div>
+					<span className="marketplace-item-fullprice nfd-line-through">{ item.full_price_formatted }</span>
 				);
 			}
+			pricewrap = (
+				<div className="marketplace-item-price-wrap has-full-price nfd-flex nfd-flex-col nfd-items-center nfd-gap-2 nfd-text-[#1E293B] nfd-font-medium">
+					{ fullprice }
+					{ price }
+				</div>
+			);
 		}
 		return pricewrap;
 	};
 
 	return (
-		<Components.Card className={ `marketplace-item marketplace-item-${ item.id } ${ item.full_price ? "product-has-full-price" : ""}` } id={`marketplace-item-${ item.id }`}>
+		<Card className={ `marketplace-item marketplace-item-${ item.id } ${ item.full_price ? "product-has-full-price" : ""}` } id={`marketplace-item-${ item.id }`}>
+			<Card.Header className="nfd-h-auto nfd-p-0">
 			{ item.productThumbnailUrl && (
-				<Components.CardMedia>
-					<img src={ item.productThumbnailUrl } alt={ item.name + ' thumbnail' } />
-				</Components.CardMedia>
+                <img src={item.productThumbnailUrl} alt={item.name + ' thumbnail'} className="nfd-w-full nfd-aspect-video marketplace-item-image" />
 			) }
-			<Components.CardHeader>
-				<h2>{ item.name }</h2>
+			</Card.Header>
+			<Card.Content className="nfd-flex nfd-flex-col nfd-gap-3">
+				<Title as="h3" size="4" className="marketplace-item-title">
+					{item.name}
+				</Title>
+				<p>{item.description}</p>
+
+				{item.secondaryCallToAction &&
+                    <Link as="a" href={item.secondaryUrl} target="_blank" className="nfd-inline-flex nfd-items-center nfd-gap-1.5 nfd-w-max nfd-no-underline">
+                        <span className="nfd-text-primary">{item.secondaryCallToAction}</span>
+                        <ArrowRightIcon className="nfd-text-[#18181B] nfd-w-3" />
+                    </Link>
+                }
+			</Card.Content>
+			<Card.Footer className="nfd-flex nfd-justify-between nfd-items-center nfd-flex-wrap nfd-gap-2 marketplace-item-footer">
 				{ renderPrice(item) }
-			</Components.CardHeader>
-			{ item.description && 
-				<Components.CardBody 
-					// Comes from internal source - let's trust ourselves (for now)
-					dangerouslySetInnerHTML={{ __html: item.description }} 
-				/>
-			}
-			<Components.CardFooter>
-				{ renderCTAs(item) }
-			</Components.CardFooter>
-		</Components.Card>
+				{ renderPrimaryCTA(item) }
+			</Card.Footer>
+		</Card>
 	);
 };
 
