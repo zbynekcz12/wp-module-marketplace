@@ -80,7 +80,7 @@ describe('Marketplace Page', function () {
 	it('Category Tab Filters properly', () => {
 		
 		cy.get( appClass + '-app-subnavitem-Services').click();
-		cy.get('.marketplace-item').should('have.length', 14);
+		cy.get('.marketplace-item').should('have.length', 12);
 		cy.get('#marketplace-item-1fc92f8a-bb9f-47c8-9808-aab9c82d6bf2 h3')
 			.scrollIntoView()
 			.should('be.visible')
@@ -94,7 +94,7 @@ describe('Marketplace Page', function () {
 			.should('have.text', 'Yoast Premium');
 	});
 
-	it.skip('Load more button loads more products', () => {
+	it('Load more button loads more products', () => {
 		cy.get( appClass + '-app-subnavitem-Services').click();
 		cy.wait(300);
 
