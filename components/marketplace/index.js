@@ -168,7 +168,7 @@ const defaults = {
 	};
 
 	const getSectionTitle = () => {
-		if ( !isLoading && !isError && marketplaceCategories && constants.addCategoryToTitle ) {
+		if ( !isLoading && !isError && marketplaceCategories && constants.appendCategoryToTitle ) {
 			return constants.text.title + ': ' + marketplaceCategories[activeCategoryIndex].title;
 		}
 		else {
