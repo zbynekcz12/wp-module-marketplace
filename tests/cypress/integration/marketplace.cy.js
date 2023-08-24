@@ -132,4 +132,9 @@ describe('Marketplace Page', function () {
 		});
 	});
 
+	// TEST NEEDED
+	// Product with a sale price displays properly - full_price_formatted
+	// Custom style for a category is in place - categories.data.styles
+	// Product click events fire properly
+
 });
