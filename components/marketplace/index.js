@@ -1,5 +1,20 @@
 import { default as MarketplaceList } from '../marketplaceList/';
 import { default as MarketplaceIsLoading } from '../marketplaceIsLoading/';
+import { Title } from "@newfold/ui-component-library";
+
+const defaults = {
+	'eventendpoint': '/newfold-data/v1/events/',
+	'perPage': 12,
+	'supportsCTB': true,
+	'appendCategoryToTitle': true,
+	'text': {
+		'title':      'Marketplace',
+		'subTitle':   'Explore our featured collection of tools and services.',
+		'error':      'Oops, there was an error loading the marketplace, please try again later.',
+		'noProducts': 'Sorry, no marketplace items. Please, try again later.',
+		'loadMore':   'Load More',
+	},
+};
 
 /**
  * Marketplace Module
@@ -8,7 +23,7 @@ import { default as MarketplaceIsLoading } from '../marketplaceIsLoading/';
  * @param {*} props 
  * @returns 
  */
- const Marketplace = ({methods, constants, ...props}) => {
+ const Marketplace = ({methods, constants, Components, ...props}) => {
 	const [ isLoading, setIsLoading ] = methods.useState( true );
 	const [ isError, setIsError ] = methods.useState( false );
 	const [ marketplaceCategories, setMarketplaceCategories ] = methods.useState( [] );
@@ -16,6 +31,9 @@ import { default as MarketplaceIsLoading } from '../marketplaceIsLoading/';
     const [ products, setProducts ] = methods.useState( [] );
     const [ activeCategoryIndex, setActiveCategoryIndex ] = methods.useState( 0 );
 	let location = methods.useLocation();
+
+	// set defaults if not provided
+	constants = Object.assign(defaults, constants);
 
 	/**
 	 * on mount load all marketplace data from module api
@@ -121,22 +139,6 @@ import { default as MarketplaceIsLoading } from '../marketplaceIsLoading/';
 	};
 
 	/**
-	 * Save a potential updated display counts per category
-	 * @param string categoryName 
-	 * @param Number newCount 
-	 */
-	const saveCategoryDisplayCount = (categoryName, newCount) => {
-		let updatedMarketplaceCategories = [...marketplaceCategories];
-		// find matching cat, and update perPage amount
-		updatedMarketplaceCategories.forEach( (cat) => {
-			if (cat.name === categoryName ) {
-				cat.currentCount = newCount;
-			}
-		});
-		setMarketplaceCategories( updatedMarketplaceCategories );
-	};
-
-	/**
 	 * Apply styles if they exist
 	 */
 	 const applyStyles = () => {
@@ -163,27 +165,44 @@ import { default as MarketplaceIsLoading } from '../marketplaceIsLoading/';
 	 const renderSkeleton = () => {
 		// render default skeleton
 		return <MarketplaceIsLoading />;
-	}
+	};
+
+	const getSectionTitle = () => {
+		if ( !isLoading && !isError && marketplaceCategories && constants.addCategoryToTitle ) {
+			return constants.text.title + ': ' + marketplaceCategories[activeCategoryIndex].title;
+		}
+		else {
+			return constants.text.title;
+		}
+	};
 
 	return (
-		<div className={methods.classnames('newfold-marketplace-wrapper')}>
-			{ isLoading && 
-				renderSkeleton()
-			}
-			{ isError && 
-				<h3>Oops, there was an error loading the marketplace, please try again later.</h3>
-			}
-			{ !isLoading && !isError &&
-					<MarketplaceList
-						marketplaceItems={products}
-						category={marketplaceCategories[activeCategoryIndex]}
-						currentCount={marketplaceCategories[activeCategoryIndex].currentCount}
-						methods={methods}
-						constants={constants}
-					/>
+		<>
+			<Components.SectionHeader
+				title={getSectionTitle()}
+				subTitle={constants.text.subTitle}
+			/>
+			<Components.SectionContent className={methods.classnames('newfold-marketplace-wrapper')}>
+				{ isLoading && 
+					renderSkeleton()
+				}
+				{ isError && 
+					<Title as="h3" size="3">
+						{ constants.text.error }
+					</Title>
+				}
+				{ !isLoading && !isError &&
+						<MarketplaceList
+							marketplaceItems={products}
+							category={marketplaceCategories[activeCategoryIndex]}
+							currentCount={marketplaceCategories[activeCategoryIndex].currentCount}
+							methods={methods}
+							constants={constants}
+						/>
 
-			}
-		</div>
+				}
+			</Components.SectionContent>
+		</>
 	)
 
 };
