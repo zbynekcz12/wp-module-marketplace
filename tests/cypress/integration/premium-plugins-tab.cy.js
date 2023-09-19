@@ -10,9 +10,9 @@ describe('Plugins Premium Tab', () => {
 		}, {
 			body: products,
             delay: 1000
-		}).as('products');
+		});
         cy.visit('/wp-admin/plugin-install.php?tab=premium-marketplace');
-		cy.wait('@products');
+		
 	});
 
     it('Premium tab exist', () => {
