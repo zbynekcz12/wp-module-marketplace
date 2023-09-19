@@ -1,5 +1,5 @@
 // <reference types="Cypress" />
-const products = require('../fixtures/products.json');
+const productsFixture = require('../fixtures/products.json');
 
 describe('Marketplace Page', function () {
 	let appClass = '.' + Cypress.env('appId');
@@ -8,9 +8,11 @@ describe('Marketplace Page', function () {
 		cy.intercept({
 			method: 'GET',
 			url: /newfold-marketplace(\/|%2F)v1(\/|%2F)marketplace/
-		}, products ).as('products');
+		},
+		productsFixture );
+
 		cy.visit('/wp-admin/admin.php?page=' + Cypress.env('pluginId') + '#/marketplace');
-		cy.wait('@products');
+
 	});
 
 	it('Exists', () => {
