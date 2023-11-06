@@ -182,7 +182,10 @@ const defaults = {
 				title={getSectionTitle()}
 				subTitle={constants.text.subTitle}
 			/>
-			<Components.SectionContent className={methods.classnames('newfold-marketplace-wrapper')}>
+			<Components.SectionContent className={methods.classnames(
+				'newfold-marketplace-wrapper',
+				`newfold-marketplace-${marketplaceCategories[activeCategoryIndex]}`
+				)}>
 				{ isLoading && 
 					renderSkeleton()
 				}
