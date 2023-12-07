@@ -21,6 +21,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Checkout plugin
+        uses: actions/checkout@v4
+        with:
+          repository: bluehost/bluehost-wordpress-plugin
+          ref: 'main'
+
       - name: Use Node.js 16.x
         uses: actions/setup-node@v4
         with:
@@ -57,12 +63,6 @@ jobs:
       - name: Get source for module
         run: |
           composer reinstall ${{ github.repository }} --prefer-source
-
-      - name: Checkout plugin
-        uses: actions/checkout@v4
-        with:
-          repository: bluehost/bluehost-wordpress-plugin
-          ref: 'main'
 
       - name: Checkout module branch
         if: ${{ steps.extract_branch.outputs.branch != 'main' }}
