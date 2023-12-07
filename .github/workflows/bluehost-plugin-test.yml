@@ -8,8 +8,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    name: Build Plugin with Module branch
+  job:
+    name: Build Plugin Module Branch and Test
     runs-on: ubuntu-latest
     steps:
       - name: Setup PHP
@@ -124,11 +124,6 @@ jobs:
           name: ${{ steps.workflow.outputs.PACKAGE }}
           path: ${{ steps.workflow.outputs.DIST }}
 
-  test:
-    name: Test Plugin Build
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
       - name: Configure WordPress
         run: echo '{"plugins":["${{ steps.workflow.outputs.DIST }}/${{ steps.workflow.outputs.PACKAGE }}"]}' > .wp-env.override.json
 
