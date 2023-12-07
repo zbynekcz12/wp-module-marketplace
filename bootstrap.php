@@ -27,3 +27,6 @@ if ( function_exists( 'add_action' ) ) {
 	);
 
 }
+
+
+// test comment line in branch to ensure we have the proper files

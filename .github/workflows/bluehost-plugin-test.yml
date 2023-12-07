@@ -21,12 +21,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Checkout plugin
-        uses: actions/checkout@v4
-        with:
-          repository: bluehost/bluehost-wordpress-plugin
-          ref: 'main'
-
       - name: Use Node.js 16.x
         uses: actions/setup-node@v4
         with:
@@ -60,9 +54,15 @@ jobs:
       - name: Install PHP Dependencies
         run: composer install --no-progress --no-dev --optimize-autoloader --prefer-dist
 
-      - name: Modify composer.json
+      - name: Get source for module
         run: |
           composer reinstall ${{ github.repository }} --prefer-source
+
+      - name: Checkout plugin
+        uses: actions/checkout@v4
+        with:
+          repository: bluehost/bluehost-wordpress-plugin
+          ref: 'main'
 
       - name: Checkout module branch
         if: ${{ steps.extract_branch.outputs.branch != 'main' }}
@@ -98,7 +98,7 @@ jobs:
       - name: View modified files
         run: cat package.json composer.json
 
-      # Skip for now because marketplace module doesn't have a build script.
+      # Skip because marketplace module doesn't have a build script.
       # - name: Build JavaScript in module
       #   working-directory: ./vendor/${{ github.repository }}
       #   run: npm run build
