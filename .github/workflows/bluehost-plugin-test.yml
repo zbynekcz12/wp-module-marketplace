@@ -65,6 +65,7 @@ jobs:
           composer reinstall ${{ github.repository }} --prefer-source
 
       - name: Checkout module branch
+        if: ${{ steps.extract_branch.outputs.branch != 'main' }}
         working-directory: ./vendor/${{ github.repository }}
         run: git checkout --track origin/${{ steps.extract_branch.outputs.branch }}
 
@@ -83,9 +84,9 @@ jobs:
       - name: View modified files
         run: cat package.json composer.json
 
-      - name: Build JavaScript in module
-        working-directory: ./vendor/${{ github.repository }}
-        run: npm run build
+      # - name: Build JavaScript in module
+      #   working-directory: ./vendor/${{ github.repository }}
+      #   run: npm run build
 
       - name: Setup Registry on Plugin
         run: printf "\n//npm.pkg.github.com/:_authToken=${{ secrets.NEWFOLD_ACCESS_TOKEN }}" >> .npmrc
