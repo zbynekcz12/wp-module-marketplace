@@ -113,7 +113,7 @@ jobs:
         run: npm run build
 
       - name: Prepare files
-        run: rsync -r --include-from=.distinclude --exclude-from=.distignore . ${{ steps.workflow.outputs.DIST }}
+        run: rsync -r --include-from=.distinclude --exclude-from=.distignore . ${{ steps.workflow.outputs.DIST }}/${{ steps.workflow.outputs.PACKAGE }}
 
       - name: List Files
         working-directory: ${{ steps.workflow.outputs.DIST }}
