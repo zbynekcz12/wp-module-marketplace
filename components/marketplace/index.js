@@ -34,7 +34,7 @@ const defaults = {
 
 	// set defaults if not provided
 	constants = Object.assign(defaults, constants);
-	constants.text.subTitle += ' - Test text in branch the ensure proper js component is loaded from branch';
+
 	/**
 	 * on mount load all marketplace data from module api
 	 */
