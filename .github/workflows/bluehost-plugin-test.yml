@@ -1,4 +1,4 @@
-name: Build and Test With Bluehost Plugin
+name: Build and Test Module Updates in Bluehost Plugin
 on:
   push:
     branches:
@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   build:
-    name: Build Plugin with Module Update
+    name: Build and Test
     runs-on: ubuntu-latest
     steps:
       - name: Setup PHP
@@ -134,26 +134,6 @@ jobs:
         run: find .
 
       - uses: actions/upload-artifact@v3
-        with:
-          name: ${{ steps.workflow.outputs.PACKAGE }}
-          path: ${{ steps.workflow.outputs.DIST }}
-
-  test:
-    needs: build
-    name: Test Build
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: Setup workflow context 
-        id: workflow
-        working-directory: ${{ runner.temp }}
-        env:
-          REPO: bluehost/bluehost-wordpress-plugin
-        run: |
-          echo "DIST=${PWD}/dist" >> $GITHUB_OUTPUT
-          echo "PACKAGE=${REPO##*/}" >> $GITHUB_OUTPUT
-
-      - uses: actions/download-artifact@master
         with:
           name: ${{ steps.workflow.outputs.PACKAGE }}
           path: ${{ steps.workflow.outputs.DIST }}
