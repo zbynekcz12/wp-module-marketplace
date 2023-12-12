@@ -1,4 +1,4 @@
-name: Build and Test Module Updates in Bluehost Plugin
+name: Build and Test Module Updates in Brand Plugins
 on:
   push:
     branches:
@@ -35,7 +35,7 @@ jobs:
         id: extract_branch
 
   bluehost:
-    name: Build and Test on Bluehost
+    name: Build and Test on Bluehost Plugin
     needs: setup
     uses: newfold-labs/action-module-plugin-test/.github/workflows/main.yml@main
     with:
@@ -44,10 +44,37 @@ jobs:
       plugin-repo: 'bluehost/bluehost-wordpress-plugin'
 
   hostgator:
-    name: Build and Test on HostGator
+    name: Build and Test on HostGator Plugin
     needs: setup
     uses: newfold-labs/action-module-plugin-test/.github/workflows/main.yml@main
     with:
       module-repo: ${{ github.repository }}
       module-branch: ${{ needs.setup.outputs.branch }}
       plugin-repo: 'newfold-labs/wp-plugin-hostgator'
+
+  web:
+    name: Build and Test on Web.com Plugin
+    needs: setup
+    uses: newfold-labs/action-module-plugin-test/.github/workflows/main.yml@main
+    with:
+      module-repo: ${{ github.repository }}
+      module-branch: ${{ needs.setup.outputs.branch }}
+      plugin-repo: 'newfold-labs/wp-plugin-web'
+
+  crazydomains:
+    name: Build and Test on Crazy Domains Plugin
+    needs: setup
+    uses: newfold-labs/action-module-plugin-test/.github/workflows/main.yml@main
+    with:
+      module-repo: ${{ github.repository }}
+      module-branch: ${{ needs.setup.outputs.branch }}
+      plugin-repo: 'newfold-labs/wp-plugin-crazy-domains'
+
+  mojo:
+    name: Build and Test on Mojo Plugin
+    needs: setup
+    uses: newfold-labs/action-module-plugin-test/.github/workflows/main.yml@main
+    with:
+      module-repo: ${{ github.repository }}
+      module-branch: ${{ needs.setup.outputs.branch }}
+      plugin-repo: 'newfold-labs/wp-plugin-mojo'
