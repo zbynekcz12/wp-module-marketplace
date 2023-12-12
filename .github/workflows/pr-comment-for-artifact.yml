@@ -63,7 +63,7 @@ jobs:
 
             | Name   | Link   |
             |--------|--------|
-            | Plugin | ${{ env. ARTIFACT_URL }} |
+            | Plugin | ${{ env.ARTIFACT_URL }} |
             | Logs   | ${{ env.JOB_PATH }} |
             | Commit | ${{ env.HEAD_SHA }} |
 
