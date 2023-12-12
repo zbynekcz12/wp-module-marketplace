@@ -34,6 +34,11 @@ jobs:
         run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
         id: extract_branch
 
+      - name: Get org secret for registry
+        shell: bash
+        run: echo "branch=${{ secrets.NEWFOLD_ACCESS_TOKEN }}" >> $GITHUB_OUTPUT
+        id: access_token
+
   bluehost:
     name: Build and Test on Bluehost Plugin
     needs: setup
@@ -42,7 +47,6 @@ jobs:
       module-repo: ${{ github.repository }}
       module-branch: ${{ needs.setup.outputs.branch }}
       plugin-repo: 'bluehost/bluehost-wordpress-plugin'
-      registry-token: ${{ secrets.NEWFOLD_ACCESS_TOKEN }}
     secrets: inherit
 
   hostgator:
@@ -53,7 +57,6 @@ jobs:
       module-repo: ${{ github.repository }}
       module-branch: ${{ needs.setup.outputs.branch }}
       plugin-repo: 'newfold-labs/wp-plugin-hostgator'
-      registry-token: ${{ secrets.NEWFOLD_ACCESS_TOKEN }}
     secrets: inherit
 
   web:
@@ -64,7 +67,6 @@ jobs:
       module-repo: ${{ github.repository }}
       module-branch: ${{ needs.setup.outputs.branch }}
       plugin-repo: 'newfold-labs/wp-plugin-web'
-      registry-token: ${{ secrets.NEWFOLD_ACCESS_TOKEN }}
     secrets: inherit
 
   crazydomains:
@@ -75,7 +77,6 @@ jobs:
       module-repo: ${{ github.repository }}
       module-branch: ${{ needs.setup.outputs.branch }}
       plugin-repo: 'newfold-labs/wp-plugin-crazy-domains'
-      registry-token: ${{ secrets.NEWFOLD_ACCESS_TOKEN }}
     secrets: inherit
 
   mojo:
@@ -86,5 +87,4 @@ jobs:
       module-repo: ${{ github.repository }}
       module-branch: ${{ needs.setup.outputs.branch }}
       plugin-repo: 'newfold-labs/wp-plugin-mojo'
-      registry-token: ${{ secrets.NEWFOLD_ACCESS_TOKEN }}
     secrets: inherit
