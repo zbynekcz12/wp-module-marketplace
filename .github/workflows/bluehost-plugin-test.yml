@@ -22,8 +22,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  bluehost:
-    name: Build and Test on Bluehost
+  setup:
+    name: Setup
     runs-on: ubuntu-latest
     steps:
 
@@ -32,24 +32,20 @@ jobs:
         run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
         id: extract_branch
 
-      - uses: newfold-labs/action-module-plugin-test/.github/workflows/main.yml@main
-        with:
-          module-repo: ${{ github.repository }}
-          module-branch: ${{ steps.extract_branch.outputs.branch }}
-          plugin-repo: 'bluehost/bluehost-wordpress-plugin'
+  bluehost:
+    name: Build and Test on Bluehost
+    needs: setup
+    uses: newfold-labs/action-module-plugin-test/.github/workflows/main.yml@main
+    with:
+      module-repo: ${{ github.repository }}
+      module-branch: ${{ steps.extract_branch.outputs.branch }}
+      plugin-repo: 'bluehost/bluehost-wordpress-plugin'
 
   hostgator:
     name: Build and Test on HostGator
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: Extract branch name
-        shell: bash
-        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
-        id: extract_branch
-
-      - uses: newfold-labs/action-module-plugin-test/.github/workflows/main.yml@main
-        with:
-          module-repo: ${{ github.repository }}
-          module-branch: ${{ steps.extract_branch.outputs.branch }}
-          plugin-repo: 'newfold-labs/wp-plugin-hostgator'
+    needs: setup
+    uses: newfold-labs/action-module-plugin-test/.github/workflows/main.yml@main
+    with:
+      module-repo: ${{ github.repository }}
+      module-branch: ${{ steps.extract_branch.outputs.branch }}
+      plugin-repo: 'newfold-labs/wp-plugin-hostgator'
