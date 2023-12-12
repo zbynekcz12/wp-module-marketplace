@@ -71,14 +71,14 @@ jobs:
           node --version
           npm --version
 
-      - name: Install PHP Dependencies
+      - name: Install PHP Dependencies for Plugin
         run: composer install --no-progress --no-dev --optimize-autoloader --prefer-dist
 
-      - name: Get source for module
+      - name: Get Module Source
         run: |
           composer reinstall ${{ github.repository }} --prefer-source
 
-      - name: Checkout module branch
+      - name: Checkout Module Branch
         if: ${{ steps.extract_branch.outputs.branch != 'main' }}
         working-directory: ./vendor/${{ github.repository }}
         run: git checkout --track origin/${{ steps.extract_branch.outputs.branch }}
@@ -91,7 +91,24 @@ jobs:
         working-directory: ./vendor/${{ github.repository }}
         run: composer install --no-progress --no-dev --optimize-autoloader --prefer-dist
 
-      - name: Setup workflow context
+      - name: Setup Registry for Module
+        working-directory: ./vendor/${{ github.repository }}
+        run: printf "\n//npm.pkg.github.com/:_authToken=${{ secrets.NEWFOLD_ACCESS_TOKEN }}" >> .npmrc
+
+      - name: NPM Install for Module
+        working-directory: ./vendor/${{ github.repository }}
+        run: npm ci --legacy-peer-deps
+
+      - name: Setup Registry for Plugin
+        run: printf "\n//npm.pkg.github.com/:_authToken=${{ secrets.NEWFOLD_ACCESS_TOKEN }}" >> .npmrc
+
+      - name: NPM Install for Plugin
+        run: npm ci --legacy-peer-deps
+
+      - name: Build Plugin
+        run: npm run build
+
+      - name: Setup Workflow Context
         id: workflow
         working-directory: ${{ runner.temp }}
         env:
@@ -100,31 +117,6 @@ jobs:
           mkdir dist
           echo "DIST=${PWD}/dist" >> $GITHUB_OUTPUT
           echo "PACKAGE=${REPO##*/}" >> $GITHUB_OUTPUT
-
-      - name: Setup Registry on Module
-        working-directory: ./vendor/${{ github.repository }}
-        run: printf "\n//npm.pkg.github.com/:_authToken=${{ secrets.NEWFOLD_ACCESS_TOKEN }}" >> .npmrc
-
-      - name: Setup module
-        working-directory: ./vendor/${{ github.repository }}
-        run: npm ci --legacy-peer-deps
-
-      - name: View modified files
-        run: cat package.json composer.json
-
-      # Skip because marketplace module doesn't have a build script.
-      # - name: Build JavaScript in module
-      #   working-directory: ./vendor/${{ github.repository }}
-      #   run: npm run build
-
-      - name: Setup Registry on Plugin
-        run: printf "\n//npm.pkg.github.com/:_authToken=${{ secrets.NEWFOLD_ACCESS_TOKEN }}" >> .npmrc
-
-      - name: NPM Install
-        run: npm ci --legacy-peer-deps
-
-      - name: Build JavaScript in plugin
-        run: npm run build
 
       - name: Prepare files
         run: rsync -r --include-from=.distinclude --exclude-from=.distignore . ${{ steps.workflow.outputs.DIST }}/${{ steps.workflow.outputs.PACKAGE }}
@@ -135,8 +127,8 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: ${{ steps.workflow.outputs.PACKAGE }}
           path: ${{ steps.workflow.outputs.DIST }}
+          name: ${{ steps.workflow.outputs.PACKAGE }}
 
       - name: Configure WordPress
         run: echo '{"plugins":["${{ steps.workflow.outputs.DIST }}/${{ steps.workflow.outputs.PACKAGE }}"]}' > .wp-env.override.json
@@ -151,8 +143,8 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v3
         with:
-          name: screenshots
           path: ./tests/cypress/screenshots
+          name: screenshots
 
       - name: Output debug.log file contents
         if: always()
