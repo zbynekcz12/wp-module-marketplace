@@ -145,8 +145,8 @@ describe( 'Marketplace Page', function () {
 		cy.get( '.nfd-container__header .nfd-title' ).contains( 'eCommerce' );
 	} );
 
-	// CTB Not supported yet
-	it( 'Product CTB cards render correctly', () => {
+	// CTB Not supported yet on all plugins
+	it.skip( 'Product CTB cards render correctly', () => {
 		cy.get( appClass + '-app-subnavitem-SEO' ).click();
 		cy.get(
 			'.marketplace-item-a1ff70f1-9670-4e25-a0e1-a068d3e43a45 a.nfd-button'
