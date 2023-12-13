@@ -37,7 +37,7 @@ jobs:
   bluehost:
     name: Build and Test on Bluehost Plugin
     needs: setup
-    uses: newfold-labs/action-module-plugin-test/.github/workflows/main.yml@main
+    uses: newfold-labs/workflows/.github/workflows/module-plugin-test.yml@main
     with:
       module-repo: ${{ github.repository }}
       module-branch: ${{ needs.setup.outputs.branch }}
@@ -47,7 +47,7 @@ jobs:
   hostgator:
     name: Build and Test on HostGator Plugin
     needs: setup
-    uses: newfold-labs/action-module-plugin-test/.github/workflows/main.yml@main
+    uses: newfold-labs/workflows/.github/workflows/module-plugin-test.yml@main
     with:
       module-repo: ${{ github.repository }}
       module-branch: ${{ needs.setup.outputs.branch }}
@@ -57,7 +57,7 @@ jobs:
   web:
     name: Build and Test on Web.com Plugin
     needs: setup
-    uses: newfold-labs/action-module-plugin-test/.github/workflows/main.yml@main
+    uses: newfold-labs/workflows/.github/workflows/module-plugin-test.yml@main
     with:
       module-repo: ${{ github.repository }}
       module-branch: ${{ needs.setup.outputs.branch }}
@@ -67,7 +67,7 @@ jobs:
   crazydomains:
     name: Build and Test on Crazy Domains Plugin
     needs: setup
-    uses: newfold-labs/action-module-plugin-test/.github/workflows/main.yml@main
+    uses: newfold-labs/workflows/.github/workflows/module-plugin-test.yml@main
     with:
       module-repo: ${{ github.repository }}
       module-branch: ${{ needs.setup.outputs.branch }}
@@ -77,7 +77,7 @@ jobs:
   mojo:
     name: Build and Test on Mojo Plugin
     needs: setup
-    uses: newfold-labs/action-module-plugin-test/.github/workflows/main.yml@main
+    uses: newfold-labs/workflows/.github/workflows/module-plugin-test.yml@main
     with:
       module-repo: ${{ github.repository }}
       module-branch: ${{ needs.setup.outputs.branch }}
