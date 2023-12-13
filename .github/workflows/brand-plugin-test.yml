@@ -35,7 +35,7 @@ jobs:
         id: extract_branch
 
   bluehost:
-    name: Build and Test on Bluehost Plugin
+    name: Bluehost Build and Test
     needs: setup
     uses: newfold-labs/workflows/.github/workflows/module-plugin-test.yml@main
     with:
@@ -45,7 +45,7 @@ jobs:
     secrets: inherit
 
   hostgator:
-    name: Build and Test on HostGator Plugin
+    name: HostGator Build and Test
     needs: setup
     uses: newfold-labs/workflows/.github/workflows/module-plugin-test.yml@main
     with:
@@ -55,7 +55,7 @@ jobs:
     secrets: inherit
 
   web:
-    name: Build and Test on Web.com Plugin
+    name: Web.com Build and Test
     needs: setup
     uses: newfold-labs/workflows/.github/workflows/module-plugin-test.yml@main
     with:
@@ -65,7 +65,7 @@ jobs:
     secrets: inherit
 
   crazydomains:
-    name: Build and Test on Crazy Domains Plugin
+    name: Crazy Domains Build and Test
     needs: setup
     uses: newfold-labs/workflows/.github/workflows/module-plugin-test.yml@main
     with:
@@ -75,7 +75,7 @@ jobs:
     secrets: inherit
 
   mojo:
-    name: Build and Test on Mojo Plugin
+    name: Mojo Build and Test
     needs: setup
     uses: newfold-labs/workflows/.github/workflows/module-plugin-test.yml@main
     with:
