@@ -122,53 +122,11 @@ const MarketplaceItem = ( { item, methods, constants } ) => {
 		};
 	}, [] );
 
-	const renderCTAs = ( item ) => {
-		let primaryCTA, secondaryCTA;
-		if ( item.primaryUrl && item.primaryCallToAction ) {
-			primaryCTA = (
-				<Button
-					variant="primary"
-					className="primary-cta"
-					target="_blank"
-					href={ item.primaryUrl }
-					// create CTB button attributes
-					{ ...( constants.supportsCTB && item.clickToBuyId
-						? {
-								'data-action': 'load-nfd-ctb',
-								'data-ctb-id': item.clickToBuyId,
-						  }
-						: {} ) }
-				>
-					{ item.primaryCallToAction }
-				</Button>
-			);
-		}
-
-		if ( item.secondaryCallToAction && item.secondaryUrl ) {
-			secondaryCTA = (
-				<Button
-					variant="secondary"
-					className="secondary-cta"
-					target="_blank"
-					href={ item.secondaryUrl }
-				>
-					{ item.secondaryCallToAction }
-				</Button>
-			);
-		}
-		return (
-			<>
-				{ primaryCTA }
-				{ secondaryCTA }
-			</>
-		);
-	};
-
 	const renderPrimaryCTA = ( item ) => {
 		let primaryCTA = '';
 
 		if ( item.primaryCallToAction && item.primaryUrl ) {
-			if ( constants.supportsCTB && item.clickToBuyId ) {
+			if ( item.clickToBuyId ) {
 				primaryCTA = (
 					<Button
 						as="a"

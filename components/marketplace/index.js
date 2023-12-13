@@ -5,7 +5,6 @@ import { default as MarketplaceIsLoading } from '../marketplaceIsLoading/';
 const defaults = {
 	eventendpoint: '/newfold-data/v1/events/',
 	perPage: 12,
-	supportsCTB: true,
 	appendCategoryToTitle: true,
 	text: {
 		title: 'Marketplace',
