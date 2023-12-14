@@ -31,7 +31,6 @@ jobs:
       module-repo: ${{ github.repository }}
       module-branch: ${{ needs.setup.outputs.branch }}
       plugin-repo: 'bluehost/bluehost-wordpress-plugin'
-      cypress-cloud-tag: 'bluehost'
     secrets: inherit
 
   hostgator:
@@ -62,6 +61,7 @@ jobs:
       module-repo: ${{ github.repository }}
       module-branch: ${{ needs.setup.outputs.branch }}
       plugin-repo: 'newfold-labs/wp-plugin-crazy-domains'
+      only-module-tests: true
     secrets: inherit
 
   mojo:
@@ -72,4 +72,5 @@ jobs:
       module-repo: ${{ github.repository }}
       module-branch: ${{ needs.setup.outputs.branch }}
       plugin-repo: 'newfold-labs/wp-plugin-mojo'
+      cypress-cloud-tag: 'mojo'
     secrets: inherit
