@@ -1,15 +1,17 @@
 // <reference types="Cypress" />
-const products = require( '../fixtures/products.json' );
+const marketplaceProductsFixture = require( '../fixtures/marketplace-products.json' );
 
 describe( 'Plugins Premium Tab', () => {
 	before( () => {
+		cy.exec( 'npx wp-env run cli wp transient delete newfold_marketplace' );
+
 		cy.intercept(
 			{
 				method: 'GET',
 				url: /newfold-marketplace(\/|%2F)v1(\/|%2F)marketplace/,
 			},
 			{
-				body: products,
+				body: marketplaceProductsFixture,
 				delay: 1000,
 			}
 		);
