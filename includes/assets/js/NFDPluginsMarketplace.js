@@ -70,7 +70,7 @@ class NFDPluginsMarketplace {
 
   // Returns whether the environment supports CTB
   supportsCTB(products) {
-    if (ctbAvailableProducts.includes(poducts.clickToBuyId)) return true;
+    if (ctbAvailableProducts.includes(products.clickToBuyId)) return true;
     if (typeof nfdctb === 'undefined') {
       return false;
     }
