@@ -70,7 +70,7 @@ class NFDPluginsMarketplace {
 
   // Returns whether the environment supports CTB
   supportsCTB(products) {
-    if (ctbAvailableProducts.includes(products.clickToBuyId)) return true;
+    if (ctbAvailableProducts.includes(products?.clickToBuyId)) return true;
     if (typeof nfdctb === 'undefined') {
       return false;
     }
@@ -101,9 +101,9 @@ class NFDPluginsMarketplace {
                 href="${product.primaryUrl}" 
                 class="button button-primary nfd-ctb-btn"
                 ${
-                  supportsCTB && product.clickToBuyId
+                  supportsCTB && product?.clickToBuyId
                     ? 'data-action="load-nfd-ctb" data-ctb-id="' +
-                      product.clickToBuyId +
+                      product?.clickToBuyId +
                       '"'
                     : ''
                 }>Buy $${product.price}</a>`;
