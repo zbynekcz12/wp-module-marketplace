@@ -2,9 +2,8 @@
 const marketplaceProductsFixture = require( '../fixtures/marketplace-products.json' );
 
 describe( 'Plugins Premium Tab', () => {
-	before( () => {
-		cy.exec( 'npx wp-env run cli wp transient delete newfold_marketplace' );
 
+	beforeEach( () => {
 		cy.intercept(
 			{
 				method: 'GET',
@@ -14,9 +13,9 @@ describe( 'Plugins Premium Tab', () => {
 				body: marketplaceProductsFixture,
 				delay: 1000,
 			}
-		);
+		).as('getMarketplaceProducts');
 		cy.visit( '/wp-admin/plugin-install.php?tab=premium-marketplace' );
-	} );
+	});
 
 	it( 'Premium tab exist', () => {
 		cy.get( '.wrap' )
@@ -34,10 +33,12 @@ describe( 'Plugins Premium Tab', () => {
 	} );
 
 	it( 'Should have products', () => {
+		cy.wait('@getMarketplaceProducts');
 		cy.get( '#the-list' ).children( '.plugin-card' ).should( 'be.visible' );
 	} );
 
 	it( 'Product should display thumbnail', () => {
+		cy.wait('@getMarketplaceProducts');
 		cy.get( '.plugin-card:first-of-type' )
 			.find( '.nfd-plugin-card-thumbnail img' )
 			.scrollIntoView()
@@ -46,6 +47,7 @@ describe( 'Plugins Premium Tab', () => {
 	} );
 
 	it( 'Product should have a name', () => {
+		cy.wait('@getMarketplaceProducts');
 		cy.get( '.plugin-card:first-of-type' )
 			.find( '.nfd-plugin-card-title h3' )
 			.invoke( 'text' )
@@ -53,6 +55,7 @@ describe( 'Plugins Premium Tab', () => {
 	} );
 
 	it( 'Product should have description', () => {
+		cy.wait('@getMarketplaceProducts');
 		cy.get( '.plugin-card:first-of-type' )
 			.find( '.nfd-plugin-card-desc p' )
 			.invoke( 'text' )
@@ -60,6 +63,7 @@ describe( 'Plugins Premium Tab', () => {
 	} );
 
 	it( 'Product should have actions', () => {
+		cy.wait('@getMarketplaceProducts');
 		// primary action
 		cy.get( '.plugin-card:first-of-type' )
 			.find( '.nfd-plugin-card-actions a:first-of-type' )
