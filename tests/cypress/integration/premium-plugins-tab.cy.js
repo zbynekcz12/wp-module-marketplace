@@ -3,10 +3,6 @@ const marketplaceProductsFixture = require( '../fixtures/marketplace-products.js
 
 describe( 'Plugins Premium Tab', () => {
 
-	before( () => {
-		cy.exec( 'npx wp-env run cli wp transient delete newfold_marketplace' );
-	} );
-
 	beforeEach( () => {
 		cy.intercept(
 			{
