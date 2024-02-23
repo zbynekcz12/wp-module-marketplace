@@ -2,13 +2,6 @@
  * Class to show Marketplace products (plugins) in a tab under plugin-install.php
  */
 
-const ctbAvailableProducts = [
-  'e2f4caa1-411c-468b-86b1-a3c4e4e8cec6',
-  'ded80bbd-4662-48e4-85ca-a1af92164bc0',
-  'ae909143-6549-46cd-8ed0-56aeeb5f3bf1',
-  '0391f4e6-b5b0-41b5-832d-9464e2390214',
-  '95e9b032-4c21-42c3-b9aa-8891253b64c2',
-];
 class NFDPluginsMarketplace {
   constructor() {
     // Add event listener for when the DOM is loaded
@@ -69,8 +62,7 @@ class NFDPluginsMarketplace {
   }
 
   // Returns whether the environment supports CTB
-  supportsCTB(products) {
-    if (ctbAvailableProducts.includes(products?.clickToBuyId)) return true;
+  supportsCTB() {
     if (typeof nfdctb === 'undefined') {
       return false;
     }
@@ -93,7 +85,6 @@ class NFDPluginsMarketplace {
 
     // Helper function to render the action buttons for each product
     const renderActions = (product) => {
-      const supportsCTB = this.supportsCTB(product);
       let actionButtons = [];
 
       if (product.primaryUrl && product.price) {
@@ -101,7 +92,7 @@ class NFDPluginsMarketplace {
                 href="${product.primaryUrl}" 
                 class="button button-primary nfd-ctb-btn"
                 ${
-                  supportsCTB && product?.clickToBuyId
+                   product?.clickToBuyId
                     ? 'data-action="load-nfd-ctb" data-ctb-id="' +
                       product?.clickToBuyId +
                       '"'
