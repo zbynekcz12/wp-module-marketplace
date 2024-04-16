@@ -7,6 +7,24 @@ height="42" />
 
 A module for rendering product data and interacting with the Hiive marketplace API.
 
+## Module Responsibilities
+
+- Lists a marketplace of brand-specific products within the brand plugin app.
+- The products listed have a thumbnail image, title, description, price, and call to action button(s).
+- The specified brand for the products is set in the plugin container and may be overridden by region or language changes in the plugin.
+- Product details are loaded externally to the plugin and cached according to the TTL specification in the response.
+- Product images are loaded via CDN and not assets in the plugin.
+- Under the marketplace link in the plugin app navigation, there are sub-navigation links per category.
+  - These subnav links are sorted according to priority.
+- Each category has the potential to load dynamic styles for the product page.
+- Adds a premium page under plugins in the WordPress admin.
+  - This page lists partner plugins from Automattic, Yoast, and YITH.
+
+## Critical Paths
+
+- A user can view categorized products for purchase in the brand plugin app.
+- A user can view premium products for purchase on the premium plugins page.
+
 ## Installation
 
 ### 1. Add the Newfold Satis to your `composer.json`.
