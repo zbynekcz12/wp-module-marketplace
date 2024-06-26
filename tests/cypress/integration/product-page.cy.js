@@ -1,6 +1,8 @@
 const productPageFixtures = require( '../fixtures/product-page.json' );
 
 describe( 'Product Page', function () {
+	const appClass = '.' + Cypress.env( 'appId' );
+
 	beforeEach( () => {
 		cy.intercept(
 			{
@@ -22,7 +24,8 @@ describe( 'Product Page', function () {
 
 	it( 'Show loading state while fetching', () => {
 		cy.get(
-			'.wppbh-app-marketplace-container div[aria-label="Fetching product details"]'
+			appClass +
+				'-app-marketplace-container div[aria-label="Fetching product details"]'
 		).should( 'be.visible' );
 	} );
 
@@ -45,7 +48,7 @@ describe( 'Product Page', function () {
 			}
 		).as( 'productPageError' );
 		cy.wait( '@productPageError' );
-		cy.get( '.wppbh-app-marketplace-container div[role="alert"]' )
+		cy.get( appClass + '-app-marketplace-container div[role="alert"]' )
 			.find( 'img[alt="Dog walking with a leash"]' )
 			.should( 'exist' )
 			.and( 'be.visible' );
